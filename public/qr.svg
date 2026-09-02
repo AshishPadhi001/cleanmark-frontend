@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" rx="16" fill="#ffffff"/>
+  <!-- Top Left Corner -->
+  <rect x="24" y="24" width="64" height="64" rx="8" fill="#0f0c20"/>
+  <rect x="36" y="36" width="40" height="40" rx="4" fill="#ffffff"/>
+  <rect x="46" y="46" width="20" height="20" rx="2" fill="#6366f1"/>
+
+  <!-- Top Right Corner -->
+  <rect x="152" y="24" width="64" height="64" rx="8" fill="#0f0c20"/>
+  <rect x="164" y="36" width="40" height="40" rx="4" fill="#ffffff"/>
+  <rect x="174" y="46" width="20" height="20" rx="2" fill="#6366f1"/>
+
+  <!-- Bottom Left Corner -->
+  <rect x="24" y="152" width="64" height="64" rx="8" fill="#0f0c20"/>
+  <rect x="36" y="164" width="40" height="40" rx="4" fill="#ffffff"/>
+  <rect x="46" y="174" width="20" height="20" rx="2" fill="#6366f1"/>
+
+  <!-- Pixel Matrix Pattern -->
+  <rect x="100" y="24" width="16" height="16" fill="#0f0c20"/>
+  <rect x="124" y="24" width="16" height="16" fill="#0f0c20"/>
+  <rect x="100" y="48" width="16" height="16" fill="#6366f1"/>
+  <rect x="124" y="48" width="16" height="16" fill="#0f0c20"/>
+  <rect x="100" y="72" width="16" height="16" fill="#0f0c20"/>
+
+  <rect x="24" y="100" width="16" height="16" fill="#0f0c20"/>
+  <rect x="48" y="100" width="16" height="16" fill="#6366f1"/>
+  <rect x="72" y="100" width="16" height="16" fill="#0f0c20"/>
+  <rect x="100" y="100" width="40" height="40" rx="8" fill="#8b5cf6"/>
+  <circle cx="120" cy="120" r="10" fill="#ffffff"/>
+  
+  <rect x="152" y="100" width="16" height="16" fill="#0f0c20"/>
+  <rect x="176" y="100" width="16" height="16" fill="#6366f1"/>
+  <rect x="200" y="100" width="16" height="16" fill="#0f0c20"/>
+
+  <rect x="100" y="152" width="16" height="16" fill="#0f0c20"/>
+  <rect x="124" y="152" width="16" height="16" fill="#6366f1"/>
+  <rect x="100" y="176" width="16" height="16" fill="#6366f1"/>
+  <rect x="124" y="176" width="16" height="16" fill="#0f0c20"/>
+  <rect x="100" y="200" width="16" height="16" fill="#0f0c20"/>
+
+  <rect x="152" y="152" width="24" height="24" fill="#0f0c20"/>
+  <rect x="184" y="152" width="16" height="16" fill="#0f0c20"/>
+  <rect x="152" y="184" width="16" height="16" fill="#6366f1"/>
+  <rect x="176" y="184" width="24" height="24" fill="#0f0c20"/>
+  <rect x="152" y="208" width="48" height="8" fill="#0f0c20"/>
+</svg>
