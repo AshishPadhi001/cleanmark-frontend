@@ -10,7 +10,7 @@ export { ALPHA_96_FLAT, ALPHA_96_SIZE };
 export function getVeoWatermarkGeometry(vw, vh, preset = 'bottom-right') {
   const minDim = Math.min(vw, vh);
   const size = Math.max(24, Math.min(Math.round(minDim / 15.0), minDim));
-  const margin = round(minDim / 10.0);
+  const margin = Math.round(minDim / 10.0);
 
   let starX = Math.max(0, vw - margin - size - 24);
   let starY = Math.max(0, vh - margin - size - 24);
@@ -26,7 +26,22 @@ export function getVeoWatermarkGeometry(vw, vh, preset = 'bottom-right') {
     starY = margin + 24;
   }
 
-  function round(v) { return Math.round(v); }
+  if (preset === 'bottom-banner') {
+    const bannerH = Math.round(vh * 0.14);
+    return {
+      box: {
+        x: 0,
+        y: Math.max(0, vh - bannerH) / vh,
+        w: 1.0,
+        h: bannerH / vh,
+      },
+      star: {
+        x: starX,
+        y: starY,
+        size: size
+      }
+    };
+  }
 
   // UI Selection Box dimensions (1.8x size with padding centered over star)
   const boxW = Math.round(size * 1.8);

@@ -1,17 +1,3 @@
-  const handleVideoLoadedMetadata = () => {
-    if (!videoRef.current) return;
-    const vw = videoRef.current.videoWidth || 1280;
-    const vh = videoRef.current.videoHeight || 720;
-    const dur = videoRef.current.duration || 0;
-    setDuration(dur);
-    setEndSec(dur.toFixed(1));
-    
-    // Automatically snap selection box to exact aspect-ratio-aware Veo watermark location
-    const dyn = getDynamicPresets(vw, vh);
-    setBox(dyn['bottom-right']);
-    setActivePreset('bottom-right');
-  };
-
 import { unblendCropImageData, getVeoWatermarkGeometry } from '../utils/alphaUnblend';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -20,7 +6,7 @@ import {
   CheckCircle2, ArrowRight, Play, Pause, RotateCcw,
   Download, UploadCloud, Sliders, Eye, EyeOff, AlertCircle,
   Film, Scissors, Sparkle, RefreshCw, Zap, Volume2, Move,
-  Maximize2, Lock, Columns, Check, ChevronRight, Gauge
+  Maximize2, Lock, Columns, Check, ChevronRight, Gauge, Smartphone, Monitor
 } from 'lucide-react';
 import { getVideoInfo, cleanVideoStream, getVideoDownloadUrl, getVideoStreamUrl, clearVideoSession, getClientSessionId, initSessionAndPurgeOld } from '../config/api';
 
@@ -37,13 +23,29 @@ function getAlphaImage() {
   return cachedAlphaImage;
 }
 
-const DEFAULT_PRESETS = {
-  'bottom-right': { x: 0.76, y: 0.82, w: 0.20, h: 0.14 },
-  'bottom-left': { x: 0.04, y: 0.82, w: 0.20, h: 0.14 },
-  'top-right': { x: 0.76, y: 0.04, w: 0.20, h: 0.14 },
-  'top-left': { x: 0.04, y: 0.04, w: 0.20, h: 0.14 },
-  'bottom-banner': { x: 0.0, y: 0.86, w: 1.0, h: 0.14 },
+export const FORMAT_CONFIGS = {
+  '9:16': {
+    id: '9:16',
+    name: '9:16 Portrait',
+    tag: 'Shorts / Reels / TikTok',
+    refW: 720,
+    refH: 1280,
+    aspectRatio: '9/16',
+  },
+  '16:9': {
+    id: '16:9',
+    name: '16:9 Landscape',
+    tag: 'YouTube / Standard',
+    refW: 1280,
+    refH: 720,
+    aspectRatio: '16/9',
+  },
 };
+
+export function getInitialPresetBox(formatKey = '9:16', presetKey = 'bottom-right') {
+  const cfg = FORMAT_CONFIGS[formatKey] || FORMAT_CONFIGS['9:16'];
+  return getVeoWatermarkGeometry(cfg.refW, cfg.refH, presetKey).box;
+}
 
 export default function VideoStudioPage() {
   // Video upload & metadata state
@@ -73,7 +75,9 @@ export default function VideoStudioPage() {
   const [sizeScale, setSizeScale] = useState(1.0);
 
   // Watermark Bounding Box (Normalized 0..1)
-  const [box, setBox] = useState(DEFAULT_PRESETS['bottom-right']);
+  // Selected video format: '9:16' (Portrait - default) or '16:9' (Landscape)
+  const [videoFormat, setVideoFormat] = useState('9:16');
+  const [box, setBox] = useState(() => getInitialPresetBox('9:16', 'bottom-right'));
   const [activePreset, setActivePreset] = useState('bottom-right');
 
   // Dragging & Resizing State
@@ -102,6 +106,17 @@ export default function VideoStudioPage() {
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
 
+  // Switch Video Format (9:16 or 16:9) & update box geometry accordingly
+  const handleFormatSelect = (fmt) => {
+    if (isProcessing) return;
+    setVideoFormat(fmt);
+    const cfg = FORMAT_CONFIGS[fmt] || FORMAT_CONFIGS['9:16'];
+    const vw = videoMeta?.width || (videoRef.current?.videoWidth) || cfg.refW;
+    const vh = videoMeta?.height || (videoRef.current?.videoHeight) || cfg.refH;
+    const geom = getVeoWatermarkGeometry(vw, vh, activePreset || 'bottom-right');
+    setBox(geom.box);
+  };
+
   // Handle Video Selection
   const handleFileSelect = async (file) => {
     if (!file || !file.type.startsWith('video/')) {
@@ -124,6 +139,9 @@ export default function VideoStudioPage() {
           setVideoMeta(meta);
     // Dynamically adjust watermark box preset to match exact video aspect ratio
     if (meta.width && meta.height) {
+      const isLandscape = meta.width > meta.height;
+      const detectedFmt = isLandscape ? '16:9' : '9:16';
+      setVideoFormat(detectedFmt);
       const geom = getVeoWatermarkGeometry(meta.width, meta.height, 'bottom-right');
       setBox(geom.box);
       setActivePreset('bottom-right');
@@ -171,8 +189,9 @@ export default function VideoStudioPage() {
 
     const vid = videoRef.current;
     let sourceElement = null;
-    let vw = videoMeta?.width || 720;
-    let vh = videoMeta?.height || 1280;
+    const cfg = FORMAT_CONFIGS[videoFormat] || FORMAT_CONFIGS['9:16'];
+    let vw = videoMeta?.width || cfg.refW;
+    let vh = videoMeta?.height || cfg.refH;
 
     if (vid && vid.readyState >= 2 && vid.videoWidth > 0 && vid.videoHeight > 0) {
       sourceElement = vid;
@@ -228,7 +247,7 @@ export default function VideoStudioPage() {
     } catch (e) {
       console.warn("Live preview draw error:", e);
     }
-  }, [box, activePreset, sliderGain, showLivePreview, firstFrameImg, videoMeta]);
+  }, [box, activePreset, sliderGain, showLivePreview, firstFrameImg, videoMeta, videoFormat]);
 
   useEffect(() => {
     updateLivePreview();
@@ -237,8 +256,9 @@ export default function VideoStudioPage() {
   const handleSelectPreset = (presetKey) => {
     if (isProcessing) return;
     setActivePreset(presetKey);
-    const vw = videoMeta?.width || (videoRef.current?.videoWidth) || 720;
-    const vh = videoMeta?.height || (videoRef.current?.videoHeight) || 1280;
+    const cfg = FORMAT_CONFIGS[videoFormat] || FORMAT_CONFIGS['9:16'];
+    const vw = videoMeta?.width || (videoRef.current?.videoWidth) || cfg.refW;
+    const vh = videoMeta?.height || (videoRef.current?.videoHeight) || cfg.refH;
     const geom = getVeoWatermarkGeometry(vw, vh, presetKey);
     setBox(geom.box);
   };
@@ -495,7 +515,48 @@ export default function VideoStudioPage() {
             <Zap size={13} color={removalMode === 'unblend' ? '#38bdf8' : '#9ca3af'} />
             <span>⚡ Gemini / Veo Math Unblend (Zero Blur)</span>
           </button>
+        </div>
 
+        {/* Video Format Quick-Switch Pill */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 4,
+          background: 'rgba(0, 0, 0, 0.45)', padding: 4, borderRadius: 12,
+          border: '1px solid rgba(255, 255, 255, 0.08)'
+        }}>
+          <button
+            onClick={() => handleFormatSelect('9:16')}
+            disabled={isProcessing}
+            style={{
+              padding: '6px 12px', borderRadius: 8, border: 'none',
+              background: videoFormat === '9:16' ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(99, 102, 241, 0.35))' : 'transparent',
+              color: videoFormat === '9:16' ? '#38bdf8' : '#9ca3af',
+              fontSize: 12, fontWeight: 700,
+              cursor: isProcessing ? 'not-allowed' : 'pointer',
+              display: 'flex', alignItems: 'center', gap: 6,
+              boxShadow: videoFormat === '9:16' ? '0 0 12px rgba(56, 189, 248, 0.25)' : 'none',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Smartphone size={13} color={videoFormat === '9:16' ? '#38bdf8' : '#9ca3af'} />
+            <span>9:16 Portrait</span>
+          </button>
+          <button
+            onClick={() => handleFormatSelect('16:9')}
+            disabled={isProcessing}
+            style={{
+              padding: '6px 12px', borderRadius: 8, border: 'none',
+              background: videoFormat === '16:9' ? 'linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(99, 102, 241, 0.35))' : 'transparent',
+              color: videoFormat === '16:9' ? '#a78bfa' : '#9ca3af',
+              fontSize: 12, fontWeight: 700,
+              cursor: isProcessing ? 'not-allowed' : 'pointer',
+              display: 'flex', alignItems: 'center', gap: 6,
+              boxShadow: videoFormat === '16:9' ? '0 0 12px rgba(167, 139, 250, 0.25)' : 'none',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Monitor size={13} color={videoFormat === '16:9' ? '#a78bfa' : '#9ca3af'} />
+            <span>16:9 Landscape</span>
+          </button>
         </div>
 
         {videoFile && (
@@ -547,9 +608,115 @@ export default function VideoStudioPage() {
             <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, fontFamily: 'Outfit, sans-serif' }}>
               Drop Your Video Here
             </h2>
-            <p style={{ fontSize: 14, color: '#9ca3af', maxWidth: 480, margin: '0 auto 24px', lineHeight: 1.5 }}>
-              Instant mathematical unblending &amp; deep neural inpainting for Google Gemini, Veo 3, TikTok, channel tags, and timestamps.
+            <p style={{ fontSize: 14, color: '#9ca3af', maxWidth: 480, margin: '0 auto 18px', lineHeight: 1.5 }}>
+              Instant mathematical unblending for Google Gemini &amp; Veo 3 watermarks.
             </p>
+
+            {/* Prominent Format Selector on Dropzone */}
+            <div style={{ marginBottom: 26 }}>
+              <div style={{
+                fontSize: 11.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase',
+                letterSpacing: '0.08em', marginBottom: 12
+              }}>
+                1. Select Target Video Format
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, maxWidth: 460, margin: '0 auto' }}>
+                {/* 9:16 Portrait Card */}
+                <div
+                  onClick={() => handleFormatSelect('9:16')}
+                  style={{
+                    padding: '16px 14px', borderRadius: 16, cursor: 'pointer',
+                    background: videoFormat === '9:16'
+                      ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(99, 102, 241, 0.18))'
+                      : 'rgba(255, 255, 255, 0.03)',
+                    border: videoFormat === '9:16'
+                      ? '2px solid #38bdf8'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: videoFormat === '9:16' ? '0 0 24px rgba(56, 189, 248, 0.3)' : 'none',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: videoFormat === '9:16' ? 'scale(1.02)' : 'scale(1)',
+                  }}
+                >
+                  <div style={{
+                    width: 32, height: 48, borderRadius: 6,
+                    border: `2px solid ${videoFormat === '9:16' ? '#38bdf8' : '#64748b'}`,
+                    background: videoFormat === '9:16' ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    position: 'relative'
+                  }}>
+                    <Smartphone size={16} color={videoFormat === '9:16' ? '#38bdf8' : '#94a3b8'} />
+                    {videoFormat === '9:16' && (
+                      <div style={{
+                        position: 'absolute', top: -6, right: -6, width: 16, height: 16,
+                        borderRadius: '50%', background: '#38bdf8',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: '0 0 8px #38bdf8'
+                      }}>
+                        <Check size={10} color="#000" strokeWidth={3} />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '9:16' ? '#38bdf8' : '#e2e8f0' }}>
+                      9:16 Portrait
+                    </div>
+                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
+                      Shorts, Reels, TikTok
+                    </div>
+                  </div>
+                </div>
+
+                {/* 16:9 Landscape Card */}
+                <div
+                  onClick={() => handleFormatSelect('16:9')}
+                  style={{
+                    padding: '16px 14px', borderRadius: 16, cursor: 'pointer',
+                    background: videoFormat === '16:9'
+                      ? 'linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(99, 102, 241, 0.18))'
+                      : 'rgba(255, 255, 255, 0.03)',
+                    border: videoFormat === '16:9'
+                      ? '2px solid #a78bfa'
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: videoFormat === '16:9' ? '0 0 24px rgba(167, 139, 250, 0.3)' : 'none',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: videoFormat === '16:9' ? 'scale(1.02)' : 'scale(1)',
+                  }}
+                >
+                  <div style={{
+                    width: 48, height: 32, borderRadius: 6,
+                    border: `2px solid ${videoFormat === '16:9' ? '#a78bfa' : '#64748b'}`,
+                    background: videoFormat === '16:9' ? 'rgba(167, 139, 250, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    position: 'relative'
+                  }}>
+                    <Monitor size={16} color={videoFormat === '16:9' ? '#a78bfa' : '#94a3b8'} />
+                    {videoFormat === '16:9' && (
+                      <div style={{
+                        position: 'absolute', top: -6, right: -6, width: 16, height: 16,
+                        borderRadius: '50%', background: '#a78bfa',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: '0 0 8px #a78bfa'
+                      }}>
+                        <Check size={10} color="#000" strokeWidth={3} />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '16:9' ? '#a78bfa' : '#e2e8f0' }}>
+                      16:9 Landscape
+                    </div>
+                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
+                      YouTube, Cinema, Standard
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, color: '#64748b', marginTop: 8 }}>
+                ✦ Pre-calibrates the mathematical watermark detector to exact aspect ratio coordinates.
+              </div>
+            </div>
 
             <input
               type="file"

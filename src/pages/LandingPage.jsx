@@ -301,8 +301,8 @@ export default function LandingPage() {
 
           {/* CTA Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <Link to="/studio/image" className="btn-primary btn-lg" style={{ boxShadow: '0 8px 32px rgba(99,102,241,0.4)' }}>
-              <ImageIcon size={20} /> Open Image Studio <ArrowRight size={18} />
+            <Link to="/studio/video" className="btn-primary btn-lg" style={{ boxShadow: '0 8px 32px rgba(56, 189, 248, 0.4)' }}>
+              <Video size={20} /> Open Video Studio <ArrowRight size={18} />
             </Link>
             <a href="#how-it-works" className="btn-secondary btn-lg">
               How It Works
