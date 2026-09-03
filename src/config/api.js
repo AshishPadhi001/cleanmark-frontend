@@ -168,8 +168,13 @@ export async function cleanVideoStream({
 }) {
   const formData = new FormData();
   formData.append('session_id', getClientSessionId());
-  if (videoFile) formData.append('video', videoFile);
-  if (videoId) formData.append('video_id', videoId);
+  // If videoId already exists from /info upload, only send video_id (payload < 1KB)!
+  // Only upload the raw video file if videoId is missing.
+  if (videoId) {
+    formData.append('video_id', videoId);
+  } else if (videoFile) {
+    formData.append('video', videoFile);
+  }
   if (maskBlob) formData.append('mask', maskBlob, 'mask.png');
   if (maskBase64) formData.append('mask_base64', maskBase64);
   if (preset) formData.append('preset', preset);

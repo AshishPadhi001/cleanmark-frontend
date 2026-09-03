@@ -164,8 +164,18 @@ export default function VideoStudioPage() {
 
   // Handle Video Selection
   const handleFileSelect = async (file) => {
-    if (!file || !file.type.startsWith('video/')) {
+    if (!file) return;
+
+    if (!file.type.startsWith('video/')) {
       setErrorMsg('Please select a valid video file (.mp4, .mov, .mkv, .webm).');
+      return;
+    }
+
+    // 4 MB Limit Check
+    const maxSizeBytes = 4 * 1024 * 1024;
+    if (file.size > maxSizeBytes) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      setErrorMsg(`Sorry, we cannot process this video right now because it is ${fileSizeMB}MB (maximum limit is 4MB). Please upload a video under 4MB.`);
       return;
     }
 
@@ -465,6 +475,7 @@ export default function VideoStudioPage() {
     try {
       await cleanVideoStream({
         videoFile,
+        videoId: videoMeta?.video_id,
         removalMode,
         unblendGain: parseFloat(sliderGain) || 0.28,  // AUTO
         sizeScale: 1.0,
@@ -773,6 +784,23 @@ export default function VideoStudioPage() {
                 ✦ Pre-calibrates the mathematical watermark detector to exact aspect ratio coordinates.
               </div>
             </div>
+
+            {/* Dropzone 4MB Error Alert */}
+            {errorMsg && (
+              <div style={{
+                maxWidth: 480, margin: '0 auto 20px',
+                padding: '13px 16px', borderRadius: 12,
+                background: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                color: '#f87171', fontSize: 13, fontWeight: 600,
+                display: 'flex', alignItems: 'center', gap: 10,
+                textAlign: 'left',
+                boxShadow: '0 8px 24px rgba(239, 68, 68, 0.2)'
+              }}>
+                <AlertCircle size={18} style={{ flexShrink: 0 }} />
+                <span>{errorMsg}</span>
+              </div>
+            )}
 
             <input
               type="file"
