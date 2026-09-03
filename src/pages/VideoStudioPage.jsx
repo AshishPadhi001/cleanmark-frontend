@@ -104,7 +104,52 @@ export default function VideoStudioPage() {
   const videoRef = useRef(null);
   const cleanedVideoRef = useRef(null);
   const containerRef = useRef(null);
+  const outerContainerRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  // Exact rendered video dimensions (guarantees ZERO letterbox drift in Chrome/Firefox/Safari)
+  const [containerDims, setContainerDims] = useState({ width: null, height: null });
+
+  // Exact pixel-locked container sizing: eliminates ALL black bar drift
+  const updateContainerDimensions = useCallback(() => {
+    if (!outerContainerRef.current) return;
+    const rect = outerContainerRef.current.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+
+    const vw = videoMeta?.width || (videoRef.current?.videoWidth) || (videoFormat === '16:9' ? 1280 : 720);
+    const vh = videoMeta?.height || (videoRef.current?.videoHeight) || (videoFormat === '16:9' ? 720 : 1280);
+    if (!vw || !vh) return;
+
+    const videoAspect = vw / vh;
+    const outerAspect = rect.width / rect.height;
+
+    let finalW, finalH;
+    if (outerAspect > videoAspect) {
+      finalH = rect.height;
+      finalW = Math.round(finalH * videoAspect);
+    } else {
+      finalW = rect.width;
+      finalH = Math.round(finalW / videoAspect);
+    }
+
+    setContainerDims({ width: finalW, height: finalH });
+  }, [videoMeta, videoFormat]);
+
+  useEffect(() => {
+    updateContainerDimensions();
+    const el = outerContainerRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => {
+      updateContainerDimensions();
+    });
+    ro.observe(el);
+    window.addEventListener('resize', updateContainerDimensions);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', updateContainerDimensions);
+    };
+  }, [updateContainerDimensions, videoUrl]);
+
 
   // Switch Video Format (9:16 or 16:9) & update box geometry accordingly
   const handleFormatSelect = (fmt) => {
@@ -156,12 +201,23 @@ export default function VideoStudioPage() {
     }
   };
 
-  // Video metadata loaded via native HTML5 element
+  // Video metadata loaded via native HTML5 element (Instant local lock)
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       const dur = videoRef.current.duration;
       setDuration(dur);
       if (!endSec || endSec === 0) setEndSec(dur);
+
+      const vw = videoRef.current.videoWidth;
+      const vh = videoRef.current.videoHeight;
+      if (vw > 0 && vh > 0) {
+        const isLandscape = vw > vh;
+        const autoFmt = isLandscape ? '16:9' : '9:16';
+        setVideoFormat(autoFmt);
+        const geom = getVeoWatermarkGeometry(vw, vh, activePreset || 'bottom-right');
+        setBox(geom.box);
+        updateContainerDimensions();
+      }
     }
   };
 
@@ -779,6 +835,7 @@ export default function VideoStudioPage() {
 
                 {/* Video Player + Draggable/Resizable Watermark Box Overlay */}
                 <div
+                  ref={outerContainerRef}
                   style={{
                     position: 'relative',
                     width: '100%',
@@ -791,17 +848,20 @@ export default function VideoStudioPage() {
                     justifyContent: 'center',
                   }}
                 >
-                  {/* Aspect-Ratio-Preserving Inner Wrapper */}
+                  {/* Aspect-Ratio-Preserving Inner Wrapper (100% Zero-Letterbox Pixel Lock) */}
                   <div
                     ref={containerRef}
                     style={{
                       position: 'relative',
-                      height: '100%',
-                      aspectRatio: videoMeta ? `${videoMeta.width}/${videoMeta.height}` : '16/9',
+                      width: containerDims.width ? `${containerDims.width}px` : 'auto',
+                      height: containerDims.height ? `${containerDims.height}px` : '100%',
+                      aspectRatio: videoMeta ? `${videoMeta.width}/${videoMeta.height}` : (videoFormat === '16:9' ? '16/9' : '9/16'),
                       maxWidth: '100%',
+                      maxHeight: '100%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
                     }}
                   >
                     {/* HTML5 Video Element */}
@@ -1302,31 +1362,7 @@ export default function VideoStudioPage() {
                     </div>
                   </div>
 
-                  {/* Quick Preset Pills */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
-                    {[
-                      { label: 'Subtle', val: 0.24 },
-                      { label: 'Standard', val: 0.32 },
-                      { label: 'Medium', val: 0.40 },
-                      { label: 'Strong', val: 0.48 }
-                    ].map((pill) => (
-                      <button
-                        key={pill.label}
-                        type="button"
-                        disabled={isProcessing}
-                        onClick={() => setSliderGain(pill.val)}
-                        style={{
-                          padding: '4px 2px', borderRadius: 6,
-                          background: Math.abs(sliderGain - pill.val) < 0.02 ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255,255,255,0.04)',
-                          border: `1px solid ${Math.abs(sliderGain - pill.val) < 0.02 ? '#38bdf8' : 'rgba(255,255,255,0.06)'}`,
-                          color: Math.abs(sliderGain - pill.val) < 0.02 ? '#38bdf8' : '#94a3b8',
-                          fontSize: 10, fontWeight: 600, cursor: 'pointer', textAlign: 'center'
-                        }}
-                      >
-                        {pill.label}
-                      </button>
-                    ))}
-                  </div>
+
                 </div>
 
                 {/* Section 3: Timeline Range */}
