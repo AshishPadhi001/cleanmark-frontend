@@ -2,7 +2,6 @@ import React from 'react';
 import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import RootLayout from './layouts/RootLayout';
 import LandingPage from './pages/LandingPage';
-import ImageStudioPage from './pages/ImageStudioPage';
 import VideoStudioPage from './pages/VideoStudioPage';
 import SupportPage from './pages/SupportPage';
 
@@ -12,8 +11,12 @@ const router = createHashRouter([
     element: <RootLayout />,
     children: [
       { index: true,             element: <LandingPage /> },
-      { path: 'studio/image',    element: <ImageStudioPage /> },
       { path: 'studio/video',    element: <VideoStudioPage /> },
+      // Redirect all legacy image studio routes directly to Video Studio
+      { path: 'studio/image',    element: <Navigate to="/studio/video" replace /> },
+      { path: 'image-studio',    element: <Navigate to="/studio/video" replace /> },
+      { path: 'image',           element: <Navigate to="/studio/video" replace /> },
+      { path: 'studio',          element: <Navigate to="/studio/video" replace /> },
       { path: 'support',         element: <SupportPage /> },
       { path: 'donate',          element: <SupportPage /> },
       { path: 'buy-me-a-coffee', element: <SupportPage /> },

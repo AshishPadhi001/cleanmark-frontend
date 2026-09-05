@@ -272,8 +272,8 @@ export default function SupportPage() {
 
         {/* Back to Studio CTA */}
         <div style={{ marginTop: 36, textAlign: 'center' }}>
-          <Link to="/studio/image" className="btn-primary" style={{ display: 'inline-flex', padding: '12px 24px', fontSize: 13.5, fontWeight: 700 }}>
-            <span>Back to Image Studio</span>
+          <Link to="/studio/video" className="btn-primary" style={{ display: 'inline-flex', padding: '12px 24px', fontSize: 13.5, fontWeight: 700 }}>
+            <span>Open Video Studio</span>
             <ArrowRight size={15} />
           </Link>
         </div>
