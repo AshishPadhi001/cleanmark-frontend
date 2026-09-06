@@ -1,11 +1,15 @@
 import React from 'react';
-import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import RootLayout from './layouts/RootLayout';
 import LandingPage from './pages/LandingPage';
 import VideoStudioPage from './pages/VideoStudioPage';
 import SupportPage from './pages/SupportPage';
 
-const router = createHashRouter([
+// Use clean HTML5 browser router (zero hashtags) for web & Vercel, fallback to hash for Electron file://
+const isFileProtocol = typeof window !== 'undefined' && window.location.protocol === 'file:';
+const createRouter = isFileProtocol ? createHashRouter : createBrowserRouter;
+
+const router = createRouter([
   {
     path: '/',
     element: <RootLayout />,

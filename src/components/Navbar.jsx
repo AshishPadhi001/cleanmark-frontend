@@ -52,17 +52,21 @@ export default function Navbar() {
   const handleNavClick = (e, href) => {
     if (href.startsWith('/#')) {
       const targetId = href.replace('/#', '');
+      e.preventDefault();
       if (pathname === '/') {
-        e.preventDefault();
         const el = document.getElementById(targetId);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
           setActiveSection(targetId);
-          window.history.pushState(null, '', href.replace('/', ''));
         }
       } else {
-        e.preventDefault();
-        navigate(href);
+        navigate('/');
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
       }
     }
   };
@@ -87,7 +91,7 @@ export default function Navbar() {
       {/* Logo */}
       <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
         <img
-          src="./logo.png"
+          src="/favicon.png"
           alt="CleanMark AI"
           style={{
             width: 38,
