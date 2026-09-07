@@ -1,11 +1,11 @@
 import { unblendCropImageData, getVeoWatermarkGeometry } from '../utils/alphaUnblend';
-import { processVideoLocally } from '../services/localVideoEngine';
+import { processVideoLocally, extractVideoMetadata } from '../services/localVideoEngine';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Video, Sparkles, Clock, ShieldCheck, Cpu, Layers,
   CheckCircle2, ArrowRight, Play, Pause, RotateCcw,
-  Download, UploadCloud, Sliders, Eye, EyeOff, AlertCircle,
+  Download, UploadCloud, Sliders, Eye, EyeOff, AlertCircle, AlertTriangle,
   Film, Scissors, Sparkle, RefreshCw, Zap, Volume2, Move,
   Maximize2, Lock, Columns, Check, ChevronRight, Gauge, Smartphone, Monitor
 } from 'lucide-react';
@@ -55,7 +55,7 @@ export function getInitialPresetBox(formatKey = '9:16', presetKey = 'bottom-righ
 function ProcessingModal({ progressData, videoMeta, duration }) {
   const progress   = parseFloat(progressData?.progress || 0);
   const frame      = progressData?.frame || 0;
-  const total      = progressData?.total_frames || Math.round((duration || 1) * 30);
+  const total      = progressData?.total_frames || Math.round((duration || 1) * (videoMeta?.fps || 24));
   const R          = 58;
   const CIRC       = 2 * Math.PI * R;
   const offset     = CIRC - (progress / 100) * CIRC;
@@ -368,7 +368,7 @@ export default function VideoStudioPage() {
         height: vh,
         duration: dur,
         filename: file.name,
-        fps: 30
+        fps: 24
       });
       setLoadingMeta(false);
     };
@@ -527,7 +527,7 @@ export default function VideoStudioPage() {
     if (videoRef.current) videoRef.current.pause();
     if (cleanedVideoRef.current) cleanedVideoRef.current.pause();
     setIsPlaying(false);
-    const fps = videoMeta?.fps || 30;
+    const fps = videoMeta?.fps || 24;
     const newTime = Math.max(0, Math.min(duration, (videoRef.current?.currentTime || 0) + (frames / fps)));
     if (videoRef.current) videoRef.current.currentTime = newTime;
     if (cleanedVideoRef.current) cleanedVideoRef.current.currentTime = newTime;
@@ -633,7 +633,7 @@ export default function VideoStudioPage() {
 
     setIsProcessing(true);
     setErrorMsg(null);
-    setProgressData({ status: 'starting', progress: 0.0, frame: 0, total_frames: Math.round((duration || 1) * 30) });
+    setProgressData({ status: 'starting', progress: 0.0, frame: 0, total_frames: Math.round((duration || 1) * (videoMeta?.fps || 24)) });
 
     if (videoRef.current) {
       videoRef.current.pause();
@@ -1709,16 +1709,65 @@ export default function VideoStudioPage() {
                 </div>
 
                 {/* Error Message */}
-                {errorMsg && (
-                  <div style={{
-                    padding: '10px 12px', borderRadius: 10,
-                    background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)',
-                    color: '#f87171', fontSize: 11.5, display: 'flex', alignItems: 'center', gap: 8
-                  }}>
-                    <AlertCircle size={14} style={{ flexShrink: 0 }} />
-                    <span>{errorMsg}</span>
-                  </div>
-                )}
+                {/* User-Friendly Notice / Error Banner */}
+                {errorMsg && (() => {
+                  const isTooLarge = errorMsg.includes('exceeds the maximum coded area') ||
+                                     errorMsg.includes('AVC level') ||
+                                     errorMsg.includes('VIDEO_RESOLUTION_TOO_LARGE') ||
+                                     errorMsg.includes('coded area');
+                  return (
+                    <div style={{
+                      padding: '12px 14px', borderRadius: 12,
+                      background: isTooLarge
+                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(239, 68, 68, 0.12))'
+                        : 'rgba(239, 68, 68, 0.14)',
+                      border: isTooLarge
+                        ? '1px solid rgba(245, 158, 11, 0.38)'
+                        : '1px solid rgba(239, 68, 68, 0.35)',
+                      display: 'flex', flexDirection: 'column', gap: 7,
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                          <AlertTriangle size={15} color={isTooLarge ? '#fbbf24' : '#f87171'} style={{ flexShrink: 0 }} />
+                          <span style={{
+                            fontSize: 12, fontWeight: 800, fontFamily: 'Outfit, sans-serif',
+                            color: isTooLarge ? '#fbbf24' : '#f87171', letterSpacing: '-0.01em'
+                          }}>
+                            {isTooLarge ? 'Video Resolution Too Large (4K)' : 'Processing Notice'}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setErrorMsg(null)}
+                          style={{
+                            background: 'none', border: 'none', color: '#94a3b8',
+                            fontSize: 16, cursor: 'pointer', padding: '0 4px', lineHeight: 1
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      <div style={{ fontSize: 11.5, color: '#e2e8f0', lineHeight: 1.4 }}>
+                        {isTooLarge
+                          ? 'This video exceeds the maximum resolution supported by your browser hardware encoder.'
+                          : errorMsg
+                        }
+                      </div>
+
+                      {isTooLarge && (
+                        <div style={{
+                          fontSize: 10.5, color: '#94a3b8', background: 'rgba(0,0,0,0.35)',
+                          padding: '6px 9px', borderRadius: 7, borderLeft: '3px solid #38bdf8',
+                          lineHeight: 1.35
+                        }}>
+                          💡 <strong style={{ color: '#38bdf8' }}>Gemini / Veo Spec:</strong> Google Gemini videos are natively 1080p or 720p. Please upload a 1080p video for fast, zero-blur in-browser cleaning.
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {/* Primary Action Button */}
                 <button
