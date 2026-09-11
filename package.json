@@ -13,8 +13,10 @@
     "package:win": "electron-packager . \"CleanMark AI\" --platform=win32 --arch=x64 --out=dist-desktop --icon=public/icon.ico --ignore=\"^/(src|dist-electron)\" --overwrite"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
     "@tailwindcss/vite": "^4.3.3",
     "canvas-confetti": "^1.9.4",
+    "dexie": "^4.4.5",
     "jszip": "^3.10.1",
     "lucide-react": "^1.31.0",
     "mp4-muxer": "^5.2.2",

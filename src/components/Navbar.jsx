@@ -127,7 +127,12 @@ export default function Navbar() {
             <Link
               key={link.href}
               to={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
+              onClick={(e) => {
+                if (isStudio) {
+                  window.dispatchEvent(new CustomEvent('resetVideoStudio'));
+                }
+                handleNavClick(e, link.href);
+              }}
               style={{
                 padding: '7px 14px',
                 borderRadius: 8,
@@ -212,7 +217,7 @@ export default function Navbar() {
           </span>
         </div>
 
-        <Link to="/studio/video" className="btn-primary btn-sm">
+        <Link to="/studio/video" className="btn-primary btn-sm" onClick={() => window.dispatchEvent(new CustomEvent('resetVideoStudio'))}>
           <Zap size={14} />
           Open Studio
         </Link>

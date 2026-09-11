@@ -60,14 +60,21 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
   const CIRC       = 2 * Math.PI * R;
   const offset     = CIRC - (progress / 100) * CIRC;
 
-  const STAGES = [
-    { pct:  0, text: 'Initialising GPU pipeline...' },
-    { pct:  8, text: 'Decoding video frames...' },
-    { pct: 30, text: 'Removing watermarks...' },
-    { pct: 75, text: 'Encoding output...' },
-    { pct: 95, text: 'Finalising MP4...' },
-  ];
-  const stage = STAGES.reduce((a, s) => progress >= s.pct ? s : a, STAGES[0]).text;
+  // Dynamic stage text — handles audio-specific engine states
+  const stage = (() => {
+    const st = progressData?.status;
+    if (st === 'demuxing')     return '🎵 Analysing audio track...';
+    if (st === 'muxing_audio') return '🎵 Merging audio into MP4...';
+    if (st === 'completed')    return '✅ Done!';
+    const STAGES = [
+      { pct:  0, text: 'Initialising GPU pipeline...' },
+      { pct:  8, text: 'Analysing audio + video...' },
+      { pct: 15, text: 'Removing watermarks...' },
+      { pct: 80, text: 'Encoding output...' },
+      { pct: 98, text: 'Finalising MP4...' },
+    ];
+    return STAGES.reduce((a, s) => progress >= s.pct ? s : a, STAGES[0]).text;
+  })();
 
   return (
     <div style={{
@@ -673,7 +680,7 @@ export default function VideoStudioPage() {
   };
 
   // Reset Everything
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (isProcessing) return;
     setVideoFile(null);
     setVideoUrl(null);
@@ -683,7 +690,16 @@ export default function VideoStudioPage() {
     setProgressData(null);
     setIsProcessing(false);
     setErrorMsg(null);
-  };
+  }, [isProcessing]);
+
+  useEffect(() => {
+    const onResetStudio = () => {
+      handleReset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.addEventListener('resetVideoStudio', onResetStudio);
+    return () => window.removeEventListener('resetVideoStudio', onResetStudio);
+  }, [handleReset]);
 
   return (
     <div style={{
