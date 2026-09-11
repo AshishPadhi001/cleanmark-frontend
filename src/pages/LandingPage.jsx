@@ -2,595 +2,670 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Sparkles, Video, ShieldCheck, Cpu,
-  Download, ArrowRight, CheckCircle2, ChevronDown, Award,
-  Layers, Upload, Paintbrush, Sliders, Zap, Play
+  Download, ArrowRight, CheckCircle2,
+  Layers, Upload, Sliders, Zap, Play, Volume2, Shield, Eye
 } from 'lucide-react';
 
-/* ═══════════════════════════════════════════════════════════════
-   3D Pop Feature Card with Spring Scale & Ambient Glow
-   ═══════════════════════════════════════════════════════════════ */
-function FeatureCard({ icon: Icon, title, desc, tag, gradient }) {
-  const [hovered, setHovered] = useState(false);
+/* 05 Dusk Sand Official 5-Color System */
+const DS = {
+  taupeDeep:  '#24201c', /* Deep background base */
+  taupe:      '#2c2825', /* Primary dark surface & contrast base */
+  taupeCard:  '#322d29', /* Card surface */
+  sandGold:   '#c29c6d', /* Accent rules, badges, and primary buttons */
+  sandLight:  '#dfc8a5', /* Dune light highlight */
+  sandTan:    '#af926e', /* Secondary architectural tones */
+  linenWhite: '#f5eee6', /* Crisp text and headers */
+  linenSoft:  '#ded6cb', /* Soft readable secondary text */
+  linenMuted: '#a89f93', /* Tertiary captions */
+  mutedTeal:  '#4d6f75', /* Signature architectural arch accent */
+  tealLight:  '#6b9097', /* Teal highlight */
+  border:     'rgba(194, 156, 109, 0.28)',
+};
+
+/* --------------------------------------------------------------------------
+   Travertine Pedestal Feature Card
+   -------------------------------------------------------------------------- */
+function FeatureCard({ index, icon: Icon, title, desc, tag, isTeal }) {
+  const [hov, setHov] = useState(false);
+  const accent = isTeal ? DS.mutedTeal : DS.sandGold;
 
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      className="stone-pedestal"
       style={{
         position: 'relative',
-        borderRadius: 24,
+        borderRadius: 22,
         padding: '36px 30px',
-        background: hovered
-          ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(99, 102, 241, 0.06) 100%)'
-          : 'rgba(255, 255, 255, 0.02)',
-        border: '1px solid',
-        borderColor: hovered ? 'rgba(99, 102, 241, 0.55)' : 'rgba(255, 255, 255, 0.07)',
-        backdropFilter: 'blur(16px)',
-        transform: hovered
-          ? 'translateY(-12px) scale(1.03) perspective(1000px)'
-          : 'translateY(0px) scale(1) perspective(1000px)',
-        boxShadow: hovered
-          ? '0 28px 60px -10px rgba(99, 102, 241, 0.4), 0 0 30px rgba(139, 92, 246, 0.25), 0 0 0 1px rgba(129, 140, 248, 0.4)'
-          : '0 10px 30px rgba(0, 0, 0, 0.3)',
-        transition: 'all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        cursor: 'pointer',
+        background: hov
+          ? 'linear-gradient(165deg, rgba(58, 52, 47, 0.95) 0%, rgba(42, 37, 33, 0.98) 100%)'
+          : 'linear-gradient(165deg, rgba(50, 45, 41, 0.85) 0%, rgba(36, 32, 28, 0.95) 100%)',
+        border: `1px solid ${hov ? 'rgba(194, 156, 109, 0.6)' : 'rgba(194, 156, 109, 0.28)'}`,
+        boxShadow: hov
+          ? '0 24px 50px -10px rgba(194, 156, 109, 0.25), 0 0 20px rgba(77, 111, 117, 0.15), inset 0 1px 0 rgba(245, 238, 230, 0.2)'
+          : '0 16px 40px -10px rgba(15, 12, 10, 0.6), inset 0 1px 0 rgba(245, 238, 230, 0.12)',
+        transform: hov ? 'translateY(-6px)' : 'translateY(0)',
+        transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         overflow: 'hidden',
       }}
     >
-      {/* Ambient Top Glow Beam on Hover */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 3,
-          background: gradient || 'linear-gradient(90deg, #6366f1, #8b5cf6, #22d3ee)',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          boxShadow: '0 0 16px #818cf8',
-        }}
-      />
+      {/* Top accent line */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+        background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+        opacity: hov ? 1 : 0, transition: 'opacity 0.3s ease',
+      }} />
 
+      {/* Index & Category Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <div
-          style={{
-            width: 58,
-            height: 58,
-            borderRadius: 18,
-            background: gradient || 'linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25))',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            transform: hovered ? 'scale(1.15) rotate(-3deg)' : 'scale(1) rotate(0deg)',
-            transition: 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-            boxShadow: hovered ? '0 8px 24px rgba(99, 102, 241, 0.5)' : 'none',
-          }}
-        >
-          <Icon size={26} color="#fff" />
-        </div>
-        {tag && (
-          <span
-            style={{
-              padding: '4px 12px',
-              borderRadius: 999,
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: 0.5,
-              background: 'rgba(99, 102, 241, 0.15)',
-              border: '1px solid rgba(99, 102, 241, 0.35)',
-              color: '#a5b4fc',
-              transform: hovered ? 'scale(1.05)' : 'scale(1)',
-              transition: 'all 0.2s ease',
-            }}
-          >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{
+            fontFamily: 'Outfit, sans-serif',
+            fontSize: 12, fontWeight: 700, letterSpacing: '0.15em',
+            color: DS.sandGold,
+          }}>
+            {String(index).padStart(2, '0')}
+          </span>
+          <span style={{ width: 22, height: 1, background: 'rgba(194, 156, 109, 0.45)' }} />
+          <span style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.2em',
+            textTransform: 'uppercase', fontFamily: 'Outfit, sans-serif',
+            color: isTeal ? DS.tealLight : DS.sandTan,
+          }}>
             {tag}
           </span>
-        )}
+        </div>
+
+        {/* Icon */}
+        <div style={{
+          width: 46, height: 46, borderRadius: 12,
+          background: isTeal
+            ? 'linear-gradient(135deg, rgba(77, 111, 117, 0.25), rgba(77, 111, 117, 0.1))'
+            : 'linear-gradient(135deg, rgba(194, 156, 109, 0.22), rgba(194, 156, 109, 0.08))',
+          border: `1px solid ${isTeal ? 'rgba(77, 111, 117, 0.4)' : 'rgba(194, 156, 109, 0.35)'}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transform: hov ? 'scale(1.08)' : 'scale(1)',
+          transition: 'transform 0.3s ease',
+        }}>
+          <Icon size={22} color={accent} />
+        </div>
       </div>
 
-      <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#fff', marginBottom: 12 }}>
+      <h3 style={{
+        fontFamily: 'Cormorant Garamond, serif',
+        fontWeight: 700,
+        fontSize: 24,
+        color: DS.linenWhite,
+        letterSpacing: '-0.01em',
+        lineHeight: 1.2,
+        marginBottom: 12,
+      }}>
         {title}
       </h3>
-      <p style={{ fontSize: 14, color: '#9ca3af', lineHeight: 1.6, margin: 0 }}>
+
+      <p style={{
+        fontSize: 14.5,
+        color: DS.linenSoft,
+        lineHeight: 1.7,
+        fontFamily: 'DM Sans, sans-serif',
+        margin: 0,
+      }}>
         {desc}
       </p>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   Interactive 3D Pop Step Card
-   ═══════════════════════════════════════════════════════════════ */
+/* --------------------------------------------------------------------------
+   Step Card (Architectural Sequence)
+   -------------------------------------------------------------------------- */
 function StepCard({ num, icon: Icon, title, desc }) {
-  const [hovered, setHovered] = useState(false);
-
+  const [hov, setHov] = useState(false);
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
       style={{
         position: 'relative',
-        borderRadius: 24,
-        padding: '36px 28px',
-        background: hovered
-          ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%)'
-          : 'rgba(255, 255, 255, 0.02)',
-        border: '1px solid',
-        borderColor: hovered ? 'rgba(99, 102, 241, 0.6)' : 'rgba(255, 255, 255, 0.08)',
+        borderRadius: 22,
+        padding: '34px 28px',
+        background: hov
+          ? 'linear-gradient(165deg, rgba(58, 52, 47, 0.95) 0%, rgba(40, 35, 31, 0.98) 100%)'
+          : 'linear-gradient(165deg, rgba(50, 45, 41, 0.85) 0%, rgba(36, 32, 28, 0.95) 100%)',
+        border: `1px solid ${hov ? 'rgba(194, 156, 109, 0.55)' : 'rgba(194, 156, 109, 0.28)'}`,
         backdropFilter: 'blur(16px)',
-        transform: hovered
-          ? 'translateY(-14px) scale(1.04) perspective(1000px)'
-          : 'translateY(0px) scale(1) perspective(1000px)',
-        boxShadow: hovered
-          ? '0 30px 70px -10px rgba(99, 102, 241, 0.45), 0 0 35px rgba(139, 92, 246, 0.3), 0 0 0 1px rgba(129, 140, 248, 0.4)'
-          : '0 10px 24px rgba(0, 0, 0, 0.25)',
-        transition: 'all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        cursor: 'pointer',
+        boxShadow: hov
+          ? '0 20px 45px -10px rgba(194, 156, 109, 0.22), inset 0 1px 0 rgba(245, 238, 230, 0.16)'
+          : '0 12px 32px -10px rgba(15, 12, 10, 0.5), inset 0 1px 0 rgba(245, 238, 230, 0.1)',
+        transform: hov ? 'translateY(-5px)' : 'translateY(0)',
+        transition: 'all 0.3s ease',
+        overflow: 'hidden',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 14,
-            background: 'linear-gradient(135deg, #06b6d4 0%, #6366f1 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: hovered ? 'scale(1.15) rotate(-6deg)' : 'scale(1) rotate(0deg)',
-            transition: 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-            boxShadow: hovered ? '0 10px 28px rgba(6,182,212,0.6)' : '0 6px 18px rgba(6,182,212,0.35)',
-          }}
-        >
-          <Icon size={22} color="#fff" />
+        <div style={{
+          width: 44, height: 44, borderRadius: 12,
+          background: 'linear-gradient(135deg, rgba(194, 156, 109, 0.22), rgba(77, 111, 117, 0.15))',
+          border: '1px solid rgba(194, 156, 109, 0.35)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transform: hov ? 'scale(1.1)' : 'scale(1)',
+          transition: 'transform 0.3s ease',
+        }}>
+          <Icon size={20} color={DS.sandGold} />
         </div>
-        <span
-          style={{
-            fontFamily: 'Outfit, sans-serif',
-            fontSize: 28,
-            fontWeight: 900,
-            color: hovered ? '#38bdf8' : 'rgba(255, 255, 255, 0.15)',
-            transition: 'color 0.2s ease',
-          }}
-        >
-          {num}
+        <span style={{
+          fontFamily: 'Cormorant Garamond, serif',
+          fontSize: 36,
+          fontWeight: 700,
+          color: DS.sandGold,
+          lineHeight: 1,
+        }}>
+          {String(num).padStart(2, '0')}
         </span>
       </div>
 
-      <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 18, color: '#fff', marginBottom: 10 }}>
+      <h3 style={{
+        fontFamily: 'Outfit, sans-serif',
+        fontWeight: 700,
+        fontSize: 17,
+        color: DS.linenWhite,
+        marginBottom: 8,
+      }}>
         {title}
       </h3>
-      <p style={{ fontSize: 13.5, color: '#9ca3af', lineHeight: 1.6, margin: 0 }}>
+      <p style={{
+        fontSize: 13.5,
+        color: DS.linenSoft,
+        lineHeight: 1.65,
+        fontFamily: 'DM Sans, sans-serif',
+        margin: 0,
+      }}>
         {desc}
       </p>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   Interactive Consumer FAQ Accordion Item
-   ═══════════════════════════════════════════════════════════════ */
-function FAQItem({ q, a }) {
-  const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        borderRadius: 18,
-        border: '1px solid',
-        background: open ? 'rgba(6, 182, 212, 0.08)' : hovered ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.02)',
-        borderColor: open ? 'rgba(6, 182, 212, 0.45)' : hovered ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.06)',
-        overflow: 'hidden',
-        transition: 'all 0.25s cubic-bezier(0.16,1,0.3,1)',
-        backdropFilter: 'blur(12px)',
-        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
-        boxShadow: open
-          ? '0 12px 32px rgba(6, 182, 212, 0.15), 0 0 0 1px rgba(6, 182, 212, 0.2)'
-          : hovered
-          ? '0 8px 24px rgba(0,0,0,0.2)'
-          : 'none',
-      }}
-    >
-      <button
-        onClick={() => setOpen((prev) => !prev)}
-        style={{
-          width: '100%',
-          padding: '20px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          textAlign: 'left',
-          gap: 16,
-        }}
-      >
-        <span style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: 16, color: open ? '#38bdf8' : '#fff', transition: 'color 0.2s' }}>
-          {q}
-        </span>
-        <div style={{
-          width: 32, height: 32, borderRadius: 10,
-          background: open ? 'rgba(6, 182, 212, 0.3)' : 'rgba(255, 255, 255, 0.05)',
-          border: `1px solid ${open ? 'rgba(6, 182, 212, 0.5)' : 'rgba(255, 255, 255, 0.08)'}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
-          transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-          transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-        }}>
-          <ChevronDown size={18} color={open ? '#38bdf8' : '#9ca3af'} />
-        </div>
-      </button>
-
-      {open && (
-        <div style={{
-          padding: '0 24px 22px',
-          fontSize: 14.5,
-          color: '#cbd5e1',
-          lineHeight: 1.7,
-          animation: 'fade-up 0.25s ease-out',
-        }}>
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 16 }} />
-          {a}
-        </div>
-      )}
-    </div>
-  );
-}
-
+/* --------------------------------------------------------------------------
+   Main Landing Page
+   -------------------------------------------------------------------------- */
 export default function LandingPage() {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [visible, setVisible] = useState(false);
 
-  // Smooth scroll to anchor if hash is present in URL
   useEffect(() => {
-    if (window.location.hash) {
-      const targetId = window.location.hash.replace('#', '');
-      const el = document.getElementById(targetId);
-      if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }, 150);
-      }
-    }
+    const t = setTimeout(() => setVisible(true), 60);
+    return () => clearTimeout(t);
   }, []);
 
+  const features = [
+    {
+      index: 1,
+      icon: Cpu,
+      title: 'Zero-Blur Math Engine',
+      desc: 'Closed-form mathematical unblending extracts the authentic uncompressed RGB signal with zero neural hallucination or pixel smearing.',
+      tag: 'Precision',
+      isTeal: false,
+    },
+    {
+      index: 2,
+      icon: ShieldCheck,
+      title: '100% In-Browser Privacy',
+      desc: 'Decoding, matrix computation, and MP4 muxing execute directly on your local hardware via WebAssembly. Zero network uploads.',
+      tag: 'Air-Gapped',
+      isTeal: true,
+    },
+    {
+      index: 3,
+      icon: Zap,
+      title: 'Hardware Accelerated',
+      desc: 'Direct WebCodecs GPU pipelines offload video rendering to your device silicon for buttery high-resolution playback and export.',
+      tag: 'Silicon',
+      isTeal: false,
+    },
+    {
+      index: 4,
+      icon: Volume2,
+      title: 'Lossless Audio Passthrough',
+      desc: 'Full AAC audio demuxing and remuxing preserving original pitch, sync, multi-channel sound, and pristine bitrate.',
+      tag: 'Acoustics',
+      isTeal: true,
+    },
+    {
+      index: 5,
+      icon: Layers,
+      title: 'Veo & Gemini Presets',
+      desc: 'Calibrated corner alpha matrices optimized specifically for transparent video watermarks in all standard aspect ratios.',
+      tag: 'Presets',
+      isTeal: false,
+    },
+    {
+      index: 6,
+      icon: Sliders,
+      title: 'Live Interactive Canvas',
+      desc: 'Drag the removal bounding box, calibrate strength, and inspect cleaned video frames side-by-side in real time.',
+      tag: 'Inspector',
+      isTeal: true,
+    },
+  ];
+
+  const steps = [
+    { icon: Upload,   title: 'Drop Video File',      desc: 'Select any MP4, MOV or WebM. Instant client-side ingestion with zero server upload.' },
+    { icon: Sliders,  title: 'Calibrate Preset',     desc: 'Choose 9:16 or 16:9 corner position and fine-tune removal strength with live preview.' },
+    { icon: Sparkles, title: 'Execute Math Engine',   desc: 'GPU-accelerated alpha inversion processes frames at native speed with full audio.' },
+    { icon: Download, title: 'Download Clean MP4',   desc: 'Clean native H.264 MP4 downloads directly to your device ready to share.' },
+  ];
+
   return (
-    <div style={{ position: 'relative', overflowX: 'hidden' }}>
-      
-      {/* ═══════════════════════════════════════════════════════════════
-          Hero Section
-          ═══════════════════════════════════════════════════════════════ */}
+    <div style={{
+      backgroundColor: DS.taupeDeep,
+      minHeight: '100vh',
+      color: DS.linenWhite,
+      position: 'relative',
+      overflowX: 'hidden',
+    }}>
+
+      {/* --------------------------------------------------------------------
+          ARCHITECTURAL HERO SECTION
+          Clean transition from Warm Dark Taupe into Warm Dune Sand & Muted Teal
+          (No background photos!)
+          -------------------------------------------------------------------- */}
       <section style={{
-        position: 'relative',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '140px 24px 80px',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'linear-gradient(180deg, #24201c 0%, #2c2825 45%, #24201c 100%)',
       }}>
-        {/* Glow backdrop */}
-        <div style={{
-          position: 'absolute',
-          top: '20%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 700,
-          height: 700,
-          background: 'radial-gradient(ellipse at center, rgba(6,182,212,0.18) 0%, rgba(99,102,241,0.12) 40%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }} />
 
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: 840, width: '100%' }}>
-          
-          {/* Trust Badge Bar */}
+        {/* Ambient Warm Dune Sand & Rich Muted Slate Teal / Green Architectural Glow */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+          {/* Top-left Warm Dune Sand golden ambient wash */}
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '6px 18px', borderRadius: 999,
-            background: 'rgba(6,182,212,0.12)', border: '1px solid rgba(6,182,212,0.3)',
-            marginBottom: 28
-          }}>
-            <Sparkles size={14} color="#22d3ee" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#a5f3fc' }}>
-              Zero-Blur Video Cleaning • 100% In-Browser Engine
-            </span>
-          </div>
+            position: 'absolute', top: -100, left: '10%',
+            width: 700, height: 500,
+            background: 'radial-gradient(ellipse, rgba(194, 156, 109, 0.2) 0%, rgba(194, 156, 109, 0.05) 50%, transparent 70%)',
+            filter: 'blur(70px)',
+          }} />
 
-          <h1 style={{
-            fontFamily: 'Outfit, sans-serif',
-            fontSize: 'clamp(40px, 6.5vw, 68px)',
-            fontWeight: 800,
-            lineHeight: 1.12,
-            letterSpacing: '-0.03em',
-            marginBottom: 24,
-          }}>
-            Erase Video Watermarks with <br />
-            <span className="gradient-text">Zero Blur &amp; 100% Quality</span>
-          </h1>
+          {/* Right Muted Slate Teal / Architectural Green Archway Glow (Matching the Reference Archway) */}
+          <div style={{
+            position: 'absolute', top: 20, right: '6%',
+            width: 620, height: 620,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(77, 111, 117, 0.36) 0%, rgba(55, 88, 94, 0.2) 45%, rgba(36, 60, 65, 0.06) 65%, transparent 80%)',
+            filter: 'blur(50px)',
+          }} />
 
-          <p style={{
-            fontSize: 'clamp(16px, 2vw, 19px)',
-            color: '#9ca3af',
-            lineHeight: 1.65,
-            maxWidth: 680,
-            margin: '0 auto 40px',
-          }}>
-            Remove unwanted watermarks, Google Veo stars, logos, and timestamps from your videos.
-            Runs <strong>100% locally in your browser</strong> using hardware GPU acceleration — no 4MB limits, no server timeouts, and complete privacy.
-          </p>
-
-          {/* CTA Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <Link to="/studio/video" className="btn-primary btn-lg" style={{ boxShadow: '0 8px 32px rgba(6, 182, 212, 0.4)' }}>
-              <Video size={20} /> Open Video Studio <ArrowRight size={18} />
-            </Link>
-            <a href="#how-it-works" className="btn-secondary btn-lg">
-              How It Works
-            </a>
-          </div>
-
-          {/* Key Metrics Highlight Strip */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, marginTop: 40, flexWrap: 'wrap' }}>
-            {[
-              [Award, '#818cf8', '100% Zero-Blur Precision'],
-              [ShieldCheck, '#10b981', '100% Local & Private (0MB Upload)'],
-              [Video, '#38bdf8', 'Any Video Length & Unlimited Size'],
-            ].map(([Icon, color, text], i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#9ca3af', fontWeight: 600 }}>
-                <Icon size={16} color={color} /> {text}
-              </div>
-            ))}
-          </div>
+          {/* Lower left ambient green touch */}
+          <div style={{
+            position: 'absolute', bottom: -60, left: '6%',
+            width: 450, height: 450,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(77, 111, 117, 0.24) 0%, transparent 65%)',
+            filter: 'blur(55px)',
+          }} />
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════════
-            Hero Showcase: Before / After Cards
-            ═══════════════════════════════════════════════════════════════ */}
-        <div style={{ position: 'relative', zIndex: 1, marginTop: 52, width: '100%', maxWidth: 1060 }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 28,
-            alignItems: 'center',
+        {/* Main Headline */}
+        <h1 style={{
+          fontFamily: 'Cormorant Garamond, serif',
+          fontSize: 'clamp(46px, 7.5vw, 92px)',
+          fontWeight: 700,
+          lineHeight: 1.06,
+          textAlign: 'center',
+          color: DS.linenWhite,
+          maxWidth: 920,
+          marginBottom: 16,
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(24px)',
+          transition: 'all 0.75s 0.1s cubic-bezier(0.16, 1, 0.3, 1)',
+          letterSpacing: '-0.02em',
+        }}>
+          Mathematical Precision.<br />
+          <span style={{
+            fontStyle: 'italic',
+            color: DS.sandGold,
           }}>
-            
-            {/* Card 1: Original Video Frame */}
-            <div
-              onMouseEnter={() => setHoveredCard('before')}
-              onMouseLeave={() => setHoveredCard(null)}
-              style={{
-                position: 'relative',
-                borderRadius: 24,
-                overflow: 'hidden',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid',
-                borderColor: hoveredCard === 'before' ? 'rgba(239, 68, 68, 0.7)' : 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(16px)',
-                transform: hoveredCard === 'before'
-                  ? 'translateY(-14px) scale(1.03) perspective(1000px)'
-                  : 'translateY(0px) scale(1) perspective(1000px)',
-                boxShadow: hoveredCard === 'before'
-                  ? '0 32px 85px -10px rgba(239, 68, 68, 0.45), 0 0 35px rgba(239, 68, 68, 0.25), 0 0 0 1px rgba(239, 68, 68, 0.5)'
-                  : '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-                transition: 'all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                cursor: 'pointer',
-              }}
-            >
-              <div style={{
-                position: 'absolute', top: 16, left: 16, zIndex: 10,
-                padding: '6px 14px', borderRadius: 999,
-                background: 'rgba(0, 0, 0, 0.8)', border: '1px solid rgba(255, 255, 255, 0.15)',
-                color: '#fff', fontSize: 12, fontWeight: 700, backdropFilter: 'blur(8px)',
-                display: 'flex', alignItems: 'center', gap: 6
-              }}>
-                <Video size={13} color="#f87171" /> ORIGINAL VIDEO (WITH WATERMARK)
-              </div>
+            Zero Blur. Absolute Fidelity.
+          </span>
+        </h1>
 
-              <img
-                src="./demo/before.jpeg"
-                alt="Original Video with Watermark"
-                style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
-              />
-            </div>
+        {/* Subtitle */}
+        <p style={{
+          fontSize: 'clamp(15px, 2.2vw, 19px)',
+          color: DS.linenSoft,
+          textAlign: 'center',
+          maxWidth: 680,
+          lineHeight: 1.75,
+          marginBottom: 44,
+          fontFamily: 'DM Sans, sans-serif',
+          fontWeight: 400,
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.75s 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}>
+          Closed-form mathematical unblending removes semi-transparent watermarks from Veo &amp; Gemini AI video — 
+          running 100% locally in your browser with full audio preservation.
+        </p>
 
-            {/* Card 2: Cleaned Video Frame */}
-            <div
-              onMouseEnter={() => setHoveredCard('after')}
-              onMouseLeave={() => setHoveredCard(null)}
-              style={{
-                position: 'relative',
-                borderRadius: 24,
-                overflow: 'hidden',
-                background: 'rgba(6, 182, 212, 0.04)',
-                border: '1px solid',
-                borderColor: hoveredCard === 'after' ? 'rgba(56, 189, 248, 0.8)' : 'rgba(6, 182, 212, 0.35)',
-                backdropFilter: 'blur(16px)',
-                transform: hoveredCard === 'after'
-                  ? 'translateY(-14px) scale(1.03) perspective(1000px)'
-                  : 'translateY(0px) scale(1) perspective(1000px)',
-                boxShadow: hoveredCard === 'after'
-                  ? '0 32px 85px -10px rgba(6, 182, 212, 0.55), 0 0 45px rgba(99, 102, 241, 0.4), 0 0 0 1px rgba(56, 189, 248, 0.5)'
-                  : '0 20px 50px rgba(6, 182, 212, 0.2), 0 0 0 1px rgba(6, 182, 212, 0.2)',
-                transition: 'all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                cursor: 'pointer',
-              }}
-            >
-              <div style={{
-                position: 'absolute', top: 16, right: 16, zIndex: 10,
-                padding: '6px 16px', borderRadius: 999,
-                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.95), rgba(99, 102, 241, 0.95))',
-                color: '#fff', fontSize: 12, fontWeight: 700,
-                display: 'flex', alignItems: 'center', gap: 6,
-                boxShadow: hoveredCard === 'after' ? '0 6px 24px rgba(6, 182, 212, 0.8)' : '0 4px 16px rgba(6, 182, 212, 0.5)',
-              }}>
-                <Sparkles size={14} color="#fff" /> Zero-Blur Cleaned Video
-              </div>
+        {/* CTA Buttons */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center',
+          opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.75s 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+          marginBottom: 48,
+        }}>
+          <Link
+            to="/studio/video"
+            className="btn-primary"
+            style={{ fontSize: 14.5, padding: '14px 36px', borderRadius: 14 }}
+            onClick={() => window.dispatchEvent(new CustomEvent('resetVideoStudio'))}
+          >
+            <Zap size={16} />
+            Open Studio — Free
+          </Link>
+          <a
+            href="#features"
+            className="btn-secondary"
+            style={{ fontSize: 14.5, padding: '14px 30px', borderRadius: 14 }}
+          >
+            <Play size={15} color={DS.sandGold} />
+            Explore Architecture
+          </a>
+        </div>
 
-              <img
-                src="./demo/after.jpeg"
-                alt="Cleaned Video with Zero Blur"
-                style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
-              />
-            </div>
-
-          </div>
+        {/* Trust Badges */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', gap: 32, justifyContent: 'center',
+          opacity: visible ? 1 : 0, transition: 'opacity 0.8s 0.4s ease',
+        }}>
+          {[
+            'Zero Server Uploads',
+            'Full Audio Preserved',
+            'Pure Closed-Form Math',
+            'Native H.264 MP4'
+          ].map(t => (
+            <span key={t} style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              fontSize: 13.5, color: DS.linenSoft, fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
+            }}>
+              <CheckCircle2 size={16} color={DS.mutedTeal} />
+              {t}
+            </span>
+          ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          How It Works (Three Steps for Videos)
-          ═══════════════════════════════════════════════════════════════ */}
-      <section id="how-it-works" style={{ padding: '100px 24px', background: 'rgba(0,0,0,0.2)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 999, background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.25)', fontSize: 12, fontWeight: 700, color: '#38bdf8', marginBottom: 14 }}>
-              EFFORTLESS VIDEO WORKFLOW
+      {/* Hairline Divider */}
+      <div className="ds-divider" style={{ maxWidth: 1000, margin: '0 auto' }} />
+
+      {/* --------------------------------------------------------------------
+          CORE CAPABILITIES (FEATURES) SECTION
+          -------------------------------------------------------------------- */}
+      <section id="features" style={{ padding: '120px 28px', position: 'relative' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: 72 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '6px 18px', borderRadius: 999,
+              background: 'rgba(50, 45, 41, 0.8)',
+              border: '1px solid rgba(194, 156, 109, 0.35)',
+              marginBottom: 18,
+            }}>
+              <span style={{
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
+                color: DS.sandGold,
+              }}>
+                02
+              </span>
+              <span style={{ width: 16, height: 1, background: 'rgba(194, 156, 109, 0.5)' }} />
+              <span style={{
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: 10.5, fontWeight: 700, letterSpacing: '0.2em',
+                textTransform: 'uppercase', color: DS.linenWhite,
+              }}>
+                Core Capabilities
+              </span>
             </div>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: '#fff', marginBottom: 12 }}>
-              Three Steps to a Clean Video
+
+            <h2 style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontWeight: 700,
+              fontSize: 'clamp(38px, 5.5vw, 62px)',
+              color: DS.linenWhite,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.1,
+              marginBottom: 16,
+            }}>
+              Everything You Need
             </h2>
-            <p style={{ fontSize: 15, color: '#9ca3af', maxWidth: 540, margin: '0 auto' }}>
-              No heavy software or cloud uploads. Clean your videos locally at hardware speed.
+
+            <p style={{
+              fontSize: 16,
+              color: DS.linenSoft,
+              maxWidth: 580,
+              margin: '0 auto',
+              lineHeight: 1.7,
+              fontFamily: 'DM Sans, sans-serif',
+            }}>
+              A complete in-browser mathematical pipeline built for precision, speed, and absolute privacy.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 28 }}>
-            <StepCard
-              num="01"
-              icon={Upload}
-              title="Upload Any Video"
-              desc="Drag and drop your MP4, MOV, or WebM video of any size or duration. Loads 100% locally in your browser with zero 4MB limits."
-            />
-            <StepCard
-              num="02"
-              icon={Sliders}
-              title="Select Watermark Area"
-              desc="Choose a smart preset (Bottom-Right, Bottom-Left, etc.) or drag the box over the watermark with live real-time preview."
-            />
-            <StepCard
-              num="03"
-              icon={Sparkles}
-              title="Clean & Export MP4"
-              desc="The in-browser engine removes watermarks with zero blur at up to 120 FPS using your GPU and exports a pristine MP4 file directly to your disk."
-            />
+          {/* Grid of Pedestals */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gap: 24,
+          }}>
+            {features.map(f => <FeatureCard key={f.title} {...f} />)}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          Core Features
-          ═══════════════════════════════════════════════════════════════ */}
-      <section id="features" style={{ padding: '100px 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 999, background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.25)', fontSize: 12, fontWeight: 700, color: '#38bdf8', marginBottom: 14 }}>
-              NEXT-GEN INPAINTING TECH
+      {/* Hairline Divider */}
+      <div className="ds-divider" style={{ maxWidth: 1000, margin: '0 auto' }} />
+
+      {/* --------------------------------------------------------------------
+          ARCHITECTURAL PIPELINE (HOW IT WORKS) SECTION
+          -------------------------------------------------------------------- */}
+      <section id="how-it-works" style={{ padding: '120px 28px', position: 'relative' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: 72 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '6px 18px', borderRadius: 999,
+              background: 'rgba(77, 111, 117, 0.18)',
+              border: '1px solid rgba(77, 111, 117, 0.35)',
+              marginBottom: 18,
+            }}>
+              <span style={{
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
+                color: DS.tealLight,
+              }}>
+                03
+              </span>
+              <span style={{ width: 16, height: 1, background: 'rgba(77, 111, 117, 0.4)' }} />
+              <span style={{
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: 10.5, fontWeight: 700, letterSpacing: '0.2em',
+                textTransform: 'uppercase', color: DS.tealLight,
+              }}>
+                Four Steps
+              </span>
             </div>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: '#fff', marginBottom: 12 }}>
-              Built for Video Speed &amp; Precision
+
+            <h2 style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontWeight: 700,
+              fontSize: 'clamp(38px, 5.5vw, 62px)',
+              color: DS.linenWhite,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.1,
+              marginBottom: 16,
+            }}>
+              How It Works
             </h2>
+
+            <p style={{
+              fontSize: 16,
+              color: DS.linenSoft,
+              maxWidth: 540,
+              margin: '0 auto',
+              lineHeight: 1.7,
+              fontFamily: 'DM Sans, sans-serif',
+            }}>
+              From upload to clean MP4 in seconds — entirely on your local device.
+            </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 28 }}>
-            <FeatureCard
-              icon={Sparkles}
-              title="Zero-Blur Video Inpainting"
-              desc="CleanMark seamlessly restores the original video background underneath watermarks, preserving pristine quality with zero blur, smearing, or loss of detail."
-              tag="Zero Blur"
-              gradient="linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.3))"
-            />
-            <FeatureCard
-              icon={Video}
-              title="Unlimited Video Size & Length"
-              desc="No 4MB payload walls and no server timeouts. Handles 50MB, 500MB, or 2GB videos seamlessly because all computation runs on your device."
-              tag="Unlimited Size"
-              gradient="linear-gradient(135deg, rgba(6,182,212,0.3), rgba(14,165,233,0.3))"
-            />
-            <FeatureCard
-              icon={ShieldCheck}
-              title="100% Private & In-Browser"
-              desc="Your videos are never uploaded to any cloud server. Everything stays safely on your machine, saving you bandwidth and protecting your privacy."
-              tag="100% Private"
-              gradient="linear-gradient(135deg, rgba(16,185,129,0.3), rgba(5,150,105,0.3))"
-            />
+          {/* 4 Step Cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: 22,
+          }}>
+            {steps.map((s, i) => (
+              <StepCard key={s.title} num={i + 1} {...s} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          Frequently Asked Questions
-          ═══════════════════════════════════════════════════════════════ */}
-      <section id="faq" style={{ padding: '100px 24px', background: 'rgba(0,0,0,0.2)' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          
-          <div style={{ textAlign: 'center', marginBottom: 54 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 999, background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.25)', fontSize: 12, fontWeight: 700, color: '#38bdf8', marginBottom: 14 }}>
-              COMMON QUESTIONS
-            </div>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 800, color: '#fff', marginBottom: 10 }}>
-              Frequently Asked Questions
-            </h2>
+      {/* Hairline Divider */}
+      <div className="ds-divider" style={{ maxWidth: 1000, margin: '0 auto' }} />
+
+      {/* --------------------------------------------------------------------
+          ARCHITECTURAL CTA BANNER
+          -------------------------------------------------------------------- */}
+      <section style={{ padding: '120px 28px', textAlign: 'center', position: 'relative' }}>
+        <div style={{
+          maxWidth: 840,
+          margin: '0 auto',
+          borderRadius: 32,
+          padding: '64px 40px',
+          background: 'linear-gradient(165deg, #322d28 0%, #24201c 100%)',
+          border: '1px solid rgba(194, 156, 109, 0.35)',
+          boxShadow: '0 32px 80px -15px rgba(15, 12, 10, 0.7), inset 0 1px 0 rgba(245, 238, 230, 0.15)',
+          position: 'relative',
+          overflow: 'hidden',
+          color: DS.linenWhite,
+        }}>
+          {/* Subtle Archway glow inside CTA in Muted Teal */}
+          <div style={{
+            position: 'absolute', top: -100, left: '50%', transform: 'translateX(-50%)',
+            width: 400, height: 300,
+            background: 'radial-gradient(ellipse, rgba(194, 156, 109, 0.22) 0%, rgba(77, 111, 117, 0.15) 50%, transparent 70%)',
+            filter: 'blur(50px)',
+            pointerEvents: 'none',
+          }} />
+
+          <div style={{
+            fontFamily: 'Outfit, sans-serif',
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: DS.sandGold, marginBottom: 16,
+          }}>
+            Ready For Video Cleaning
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <FAQItem
-              q="Does CleanMark reduce video resolution or quality?"
-              a="No! CleanMark preserves your exact original video resolution (720p, 1080p, 4K) and frame rate (30fps, 60fps) with zero blur and pristine pixel-perfect clarity."
-            />
-            <FAQItem
-              q="Is there any file size or video duration limit?"
-              a="No! Because CleanMark processes videos 100% locally inside your browser using your computer's GPU/CPU, there is no 4MB server limit or timeout. You can process videos of any size."
-            />
-            <FAQItem
-              q="What watermark types can CleanMark remove?"
-              a="CleanMark is specifically calibrated to remove translucent AI watermarks (such as Google Veo, Gemini, Sora, and Runway) as well as logos, timestamps, and channel stamps."
-            />
-            <FAQItem
-              q="Are my videos uploaded to any external server?"
-              a="No, never. All frame decoding, watermark removal, and MP4 rendering happen entirely in your browser. Your video files never leave your computer."
-            />
-          </div>
-        </div>
-      </section>
+          <h2 style={{
+            fontFamily: 'Cormorant Garamond, serif',
+            fontWeight: 700,
+            fontSize: 'clamp(40px, 6vw, 68px)',
+            color: DS.linenWhite,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.08,
+            marginBottom: 20,
+          }}>
+            Ready to Clean Your Video?
+          </h2>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          Sleek Branded Footer
-          ═══════════════════════════════════════════════════════════════ */}
-      <footer style={{
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        background: 'rgba(10, 8, 22, 0.95)',
-        padding: '40px 24px',
-        textAlign: 'center',
-      }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <img
-              src="/favicon.png"
-              alt="CleanMark AI"
-              style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover', boxShadow: '0 4px 14px rgba(6,182,212,0.4)' }}
-            />
-            <span style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 18, color: '#fff', letterSpacing: '-0.02em' }}>
-              CleanMark AI
-            </span>
-          </div>
-          <p style={{ fontSize: 13, color: '#9ca3af', maxWidth: 460, margin: 0, lineHeight: 1.6 }}>
-            Privacy-first in-browser video watermark, logo &amp; object removal studio.
+          <p style={{
+            fontSize: 16,
+            color: DS.linenSoft,
+            lineHeight: 1.75,
+            maxWidth: 560,
+            margin: '0 auto 40px',
+            fontFamily: 'DM Sans, sans-serif',
+          }}>
+            Open the studio — no account, no upload, no cost. Works entirely in your browser.
           </p>
-          <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
-            &copy; {new Date().getFullYear()} CleanMark AI. All rights reserved.
+
+          <Link
+            to="/studio/video"
+            className="btn-primary"
+            style={{ fontSize: 15, padding: '16px 42px', borderRadius: 14 }}
+            onClick={() => window.dispatchEvent(new CustomEvent('resetVideoStudio'))}
+          >
+            <Zap size={17} />
+            Start Cleaning — Free
+            <ArrowRight size={17} />
+          </Link>
+
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            marginTop: 24, fontSize: 12.5, color: DS.linenMuted, fontFamily: 'DM Sans, sans-serif',
+          }}>
+            <Shield size={14} color={DS.mutedTeal} />
+            <span>Your video never leaves your device. Zero uploads. Zero tracking.</span>
+          </div>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------------------
+          ARCHITECTURAL FOOTER
+          -------------------------------------------------------------------- */}
+      <footer style={{
+        borderTop: '1px solid rgba(194, 156, 109, 0.2)',
+        background: '#1e1a17',
+        padding: '44px 32px',
+      }}>
+        <div style={{
+          maxWidth: 1240, margin: '0 auto',
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+          gap: 20,
+        }}>
+          {/* Brand */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              border: '1px solid rgba(194, 156, 109, 0.45)',
+              overflow: 'hidden',
+            }}>
+              <img src="/favicon.png" alt="CleanMark AI" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div>
+              <span style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 15, color: DS.linenWhite }}>
+                CleanMark <span style={{ color: DS.sandGold }}>AI</span>
+              </span>
+              <span style={{ display: 'block', fontSize: 10, color: DS.linenMuted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                05 Dusk Sand · Modern Architectural Minimal
+              </span>
+            </div>
+          </div>
+
+          {/* Links */}
+          <div style={{ display: 'flex', gap: 24 }}>
+            <Link to="/support" style={{ fontSize: 13, color: DS.linenSoft, textDecoration: 'none', fontFamily: 'Outfit, sans-serif' }}>
+              Support
+            </Link>
+            <Link to="/studio/video" style={{ fontSize: 13, color: DS.sandGold, textDecoration: 'none', fontFamily: 'Outfit, sans-serif', fontWeight: 600 }}>
+              Video Studio
+            </Link>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }

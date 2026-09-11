@@ -81,23 +81,23 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
       position: 'fixed', inset: 0, zIndex: 9999,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-      background: 'rgba(7, 5, 15, 0.78)',
+      background: 'rgba(10, 9, 7, 0.82)',
     }}>
       {/* ambient glow */}
       <div style={{
         position: 'absolute', width: 560, height: 560, borderRadius: '50%',
-        background: 'radial-gradient(ellipse, rgba(56,189,248,0.18) 0%, rgba(99,102,241,0.12) 45%, transparent 70%)',
+        background: 'radial-gradient(ellipse, rgba(184,149,106,0.18) 0%, rgba(95,158,160,0.1) 45%, transparent 70%)',
         filter: 'blur(70px)', pointerEvents: 'none',
       }} />
 
       <div style={{
         position: 'relative',
-        background: 'linear-gradient(135deg, rgba(15,12,34,0.96), rgba(10,8,26,0.96))',
-        border: '1px solid rgba(56,189,248,0.28)',
+        background: 'linear-gradient(165deg, rgba(44, 38, 32, 0.95) 0%, rgba(28, 24, 20, 0.98) 100%)',
+        border: '1px solid rgba(184, 149, 106, 0.32)',
         borderRadius: 28,
         padding: '38px 48px',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22,
-        boxShadow: '0 40px 130px rgba(0,0,0,0.75), 0 0 0 1px rgba(56,189,248,0.1), 0 0 90px rgba(56,189,248,0.08)',
+        boxShadow: '0 40px 130px rgba(0,0,0,0.7), 0 0 0 1px rgba(184,149,106,0.12), 0 0 80px rgba(184,149,106,0.08)',
         minWidth: 360, maxWidth: 420,
       }}>
 
@@ -105,11 +105,11 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
         <div style={{ textAlign: 'center' }}>
           <div style={{
             fontFamily: 'Outfit, sans-serif', fontSize: 22, fontWeight: 800,
-            color: '#fff', letterSpacing: '-0.025em', marginBottom: 5,
+            color: '#ede8df', letterSpacing: '-0.025em', marginBottom: 5,
           }}>
             Cleaning Your Video
           </div>
-          <div style={{ fontSize: 13, color: '#94a3b8', fontWeight: 500, letterSpacing: '0.01em' }}>
+          <div style={{ fontSize: 13, color: 'rgba(237, 232, 223, 0.5)', fontWeight: 500, letterSpacing: '0.01em' }}>
             {stage}
           </div>
         </div>
@@ -119,8 +119,8 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
           <svg width={156} height={156} style={{ transform: 'rotate(-90deg)' }}>
             <defs>
               <linearGradient id="pgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"   stopColor="#38bdf8" />
-                <stop offset="50%"  stopColor="#818cf8" />
+                <stop offset="0%"   stopColor="#f59e0b" />
+                <stop offset="50%"  stopColor="#4d6f75" />
                 <stop offset="100%" stopColor="#10b981" />
               </linearGradient>
             </defs>
@@ -150,8 +150,8 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
                 height: 72,
                 borderRadius: 18,
                 objectFit: 'cover',
-                boxShadow: '0 0 28px rgba(56, 189, 248, 0.45), 0 6px 20px rgba(0,0,0,0.6)',
-                border: '2px solid rgba(56, 189, 248, 0.45)',
+                boxShadow: '0 0 28px rgba(184, 149, 106, 0.45), 0 6px 20px rgba(0,0,0,0.6)',
+                border: '2px solid rgba(184, 149, 106, 0.45)',
               }}
             />
           </div>
@@ -170,10 +170,10 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
             fontFamily: 'Outfit, sans-serif',
             fontSize: 28,
             fontWeight: 900,
-            color: '#fff',
+            color: '#ede8df',
             letterSpacing: '-0.03em',
             lineHeight: 1,
-            textShadow: '0 0 20px rgba(56, 189, 248, 0.4)',
+            textShadow: '0 0 20px rgba(184, 149, 106, 0.4)',
           }}>
             {Math.round(progress)}
           </span>
@@ -181,7 +181,7 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
             fontFamily: 'Outfit, sans-serif',
             fontSize: 18,
             fontWeight: 700,
-            color: '#38bdf8',
+            color: '#b8956a',
             lineHeight: 1,
           }}>
             %
@@ -192,15 +192,15 @@ function ProcessingModal({ progressData, videoMeta, duration }) {
           <div style={{ width: '100%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
             <div style={{
               width: `${progress}%`, height: '100%', borderRadius: 3,
-              background: 'linear-gradient(90deg, #38bdf8, #818cf8)',
+              background: 'linear-gradient(90deg, #f59e0b, #4d6f75)',
               transition: 'width 0.35s cubic-bezier(0.4,0,0.2,1)',
             }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#64748b' }}>
             <span>Frame {frame.toLocaleString()} of {total.toLocaleString()}</span>
             {progressData?.fps_processing
-              ? <span style={{ color: '#38bdf8', fontWeight: 700 }}>{progressData.fps_processing} FPS</span>
-              : <span style={{ color: '#38bdf8', fontWeight: 600 }}>Processing...</span>
+              ? <span style={{ color: '#b8956a', fontWeight: 700 }}>{progressData.fps_processing} FPS</span>
+              : <span style={{ color: '#b8956a', fontWeight: 600 }}>Processing...</span>
             }
           </div>
         </div>
@@ -704,8 +704,10 @@ export default function VideoStudioPage() {
   return (
     <div style={{
       minHeight: 'calc(100vh - 64px)',
-      background: '#07050f',
-      color: '#fff',
+      background: '#24201c',
+      backgroundImage: 'radial-gradient(ellipse 90% 50% at 15% 0%, rgba(189, 160, 123, 0.14) 0%, transparent 60%), radial-gradient(ellipse 70% 40% at 85% 15%, rgba(77, 111, 117, 0.12) 0%, transparent 60%)',
+      backgroundAttachment: 'fixed',
+      color: '#f5eee6',
       paddingTop: '74px',
       paddingBottom: '16px',
       paddingLeft: '20px',
@@ -725,33 +727,34 @@ export default function VideoStudioPage() {
           <div style={{
             maxWidth: 720, margin: '40px auto',
             padding: '48px 32px', borderRadius: 24,
-            background: 'rgba(15, 12, 32, 0.8)',
-            border: '2px dashed rgba(99, 102, 241, 0.35)',
+            background: 'linear-gradient(165deg, rgba(50, 45, 41, 0.9) 0%, rgba(36, 32, 28, 0.96) 100%)',
+            border: '1.5px dashed rgba(194, 156, 109, 0.45)',
+            boxShadow: '0 24px 60px rgba(15, 12, 10, 0.6), inset 0 1px 0 rgba(245, 238, 230, 0.12)',
             textAlign: 'center', backdropFilter: 'blur(20px)',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
+            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(184, 149, 106, 0.12)',
           }}>
             <div style={{
               width: 72, height: 72, borderRadius: 20,
-              background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.15))',
-              border: '1px solid rgba(56, 189, 248, 0.4)',
+              background: 'linear-gradient(135deg, rgba(184, 149, 106, 0.18), rgba(95, 158, 160, 0.12))',
+              border: '1px solid rgba(184, 149, 106, 0.4)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 20px',
-              boxShadow: '0 0 25px rgba(56, 189, 248, 0.25)',
+              boxShadow: '0 0 25px rgba(184, 149, 106, 0.25)',
             }}>
-              <UploadCloud size={34} color="#38bdf8" />
+              <UploadCloud size={34} color="#b8956a" />
             </div>
 
             <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, fontFamily: 'Outfit, sans-serif' }}>
               Drop Your Video Here
             </h2>
-            <p style={{ fontSize: 14, color: '#9ca3af', maxWidth: 480, margin: '0 auto 18px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 14, color: 'rgba(237, 232, 223, 0.5)', maxWidth: 480, margin: '0 auto 18px', lineHeight: 1.5 }}>
               Works with MP4, MOV, and WebM · Any size · No upload required.
             </p>
 
             {/* Prominent Format Selector on Dropzone */}
             <div style={{ marginBottom: 26 }}>
               <div style={{
-                fontSize: 11.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase',
+                fontSize: 11.5, fontWeight: 700, color: 'rgba(237, 232, 223, 0.5)', textTransform: 'uppercase',
                 letterSpacing: '0.08em', marginBottom: 12
               }}>
                 1. Select Target Video Format
@@ -763,12 +766,12 @@ export default function VideoStudioPage() {
                   style={{
                     padding: '16px 14px', borderRadius: 16, cursor: 'pointer',
                     background: videoFormat === '9:16'
-                      ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(99, 102, 241, 0.18))'
-                      : 'rgba(255, 255, 255, 0.03)',
+                      ? 'linear-gradient(135deg, rgba(184, 149, 106, 0.22), rgba(95, 158, 160, 0.15))'
+                      : 'rgba(50, 45, 41, 0.7)',
                     border: videoFormat === '9:16'
-                      ? '2px solid #38bdf8'
+                      ? '2px solid #f59e0b'
                       : '1px solid rgba(255, 255, 255, 0.1)',
-                    boxShadow: videoFormat === '9:16' ? '0 0 24px rgba(56, 189, 248, 0.3)' : 'none',
+                    boxShadow: videoFormat === '9:16' ? '0 0 24px rgba(184, 149, 106, 0.3)' : 'none',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
                     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                     transform: videoFormat === '9:16' ? 'scale(1.02)' : 'scale(1)',
@@ -776,28 +779,28 @@ export default function VideoStudioPage() {
                 >
                   <div style={{
                     width: 32, height: 48, borderRadius: 6,
-                    border: `2px solid ${videoFormat === '9:16' ? '#38bdf8' : '#64748b'}`,
-                    background: videoFormat === '9:16' ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                    border: `2px solid ${videoFormat === '9:16' ? '#b8956a' : '#64748b'}`,
+                    background: videoFormat === '9:16' ? 'rgba(200,169,106,0.22)' : 'rgba(255, 255, 255, 0.04)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     position: 'relative'
                   }}>
-                    <Smartphone size={16} color={videoFormat === '9:16' ? '#38bdf8' : '#94a3b8'} />
+                    <Smartphone size={16} color={videoFormat === '9:16' ? '#b8956a' : '#94a3b8'} />
                     {videoFormat === '9:16' && (
                       <div style={{
                         position: 'absolute', top: -6, right: -6, width: 16, height: 16,
-                        borderRadius: '50%', background: '#38bdf8',
+                        borderRadius: '50%', background: '#b8956a',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: '0 0 8px #38bdf8'
+                        boxShadow: '0 0 8px #f59e0b'
                       }}>
                         <Check size={10} color="#000" strokeWidth={3} />
                       </div>
                     )}
                   </div>
                   <div>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '9:16' ? '#38bdf8' : '#e2e8f0' }}>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '9:16' ? '#dfc8a5' : '#f5eee6' }}>
                       9:16 Portrait
                     </div>
-                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
+                    <div style={{ fontSize: 11, color: 'rgba(237, 232, 223, 0.5)', marginTop: 2 }}>
                       Shorts, Reels, TikTok
                     </div>
                   </div>
@@ -809,12 +812,12 @@ export default function VideoStudioPage() {
                   style={{
                     padding: '16px 14px', borderRadius: 16, cursor: 'pointer',
                     background: videoFormat === '16:9'
-                      ? 'linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(99, 102, 241, 0.18))'
-                      : 'rgba(255, 255, 255, 0.03)',
+                      ? 'linear-gradient(135deg, rgba(77, 111, 117, 0.22), rgba(184, 149, 106, 0.18))'
+                      : 'rgba(50, 45, 41, 0.7)',
                     border: videoFormat === '16:9'
-                      ? '2px solid #a78bfa'
+                      ? '2px solid #c8a96a'
                       : '1px solid rgba(255, 255, 255, 0.1)',
-                    boxShadow: videoFormat === '16:9' ? '0 0 24px rgba(167, 139, 250, 0.3)' : 'none',
+                    boxShadow: videoFormat === '16:9' ? '0 0 24px rgba(194, 156, 109, 0.3)' : 'none',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
                     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                     transform: videoFormat === '16:9' ? 'scale(1.02)' : 'scale(1)',
@@ -822,28 +825,28 @@ export default function VideoStudioPage() {
                 >
                   <div style={{
                     width: 48, height: 32, borderRadius: 6,
-                    border: `2px solid ${videoFormat === '16:9' ? '#a78bfa' : '#64748b'}`,
-                    background: videoFormat === '16:9' ? 'rgba(167, 139, 250, 0.25)' : 'rgba(255, 255, 255, 0.04)',
+                    border: `2px solid ${videoFormat === '16:9' ? '#c8a96a' : '#64748b'}`,
+                    background: videoFormat === '16:9' ? 'rgba(77, 111, 117, 0.25)' : 'rgba(255, 255, 255, 0.04)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     position: 'relative'
                   }}>
-                    <Monitor size={16} color={videoFormat === '16:9' ? '#a78bfa' : '#94a3b8'} />
+                    <Monitor size={16} color={videoFormat === '16:9' ? '#c8a96a' : '#94a3b8'} />
                     {videoFormat === '16:9' && (
                       <div style={{
                         position: 'absolute', top: -6, right: -6, width: 16, height: 16,
-                        borderRadius: '50%', background: '#a78bfa',
+                        borderRadius: '50%', background: '#c8a96a',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: '0 0 8px #a78bfa'
+                        boxShadow: '0 0 8px #c8a96a'
                       }}>
                         <Check size={10} color="#000" strokeWidth={3} />
                       </div>
                     )}
                   </div>
                   <div>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '16:9' ? '#a78bfa' : '#e2e8f0' }}>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: videoFormat === '16:9' ? '#dfc8a5' : '#f5eee6' }}>
                       16:9 Landscape
                     </div>
-                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
+                    <div style={{ fontSize: 11, color: 'rgba(237, 232, 223, 0.5)', marginTop: 2 }}>
                       YouTube, Cinema, Standard
                     </div>
                   </div>
@@ -891,7 +894,7 @@ export default function VideoStudioPage() {
               <span>Browse Video File</span>
             </button>
 
-            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 16 }}>
+            <div style={{ fontSize: 12, color: 'rgba(184, 149, 106, 0.5)', marginTop: 16 }}>
               Supports MP4, MOV, MKV, WebM • 100% Private Local Processing
             </div>
           </div>
@@ -909,8 +912,8 @@ export default function VideoStudioPage() {
             {/* Video Player Section (When editing / processing) */}
             {!completedResult ? (
               <div style={{
-                background: 'rgba(15, 12, 32, 0.85)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'linear-gradient(165deg, rgba(50, 45, 41, 0.88) 0%, rgba(36, 32, 28, 0.95) 100%)', border: '1px solid rgba(194, 156, 109, 0.28)', boxShadow: '0 16px 40px rgba(15, 12, 10, 0.5)',
+                border: '1px solid rgba(184, 149, 106, 0.16)',
                 borderRadius: 20, padding: 18,
                 backdropFilter: 'blur(16px)',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)',
@@ -920,22 +923,22 @@ export default function VideoStudioPage() {
                 <div style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   flexWrap: 'wrap', gap: 8,
-                  marginBottom: 10, fontSize: 12.5, color: '#9ca3af'
+                  marginBottom: 10, fontSize: 12.5, color: 'rgba(237, 232, 223, 0.5)'
                 }}>
                   {/* Filename & Timecode */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
                     <div style={{
                       display: 'flex', alignItems: 'center', gap: 6,
-                      background: 'rgba(255, 255, 255, 0.04)',
+                      background: 'rgba(255, 248, 235, 0.04)',
                       padding: '4px 10px', borderRadius: 8,
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(184, 149, 106, 0.16)',
                       maxWidth: 240, overflow: 'hidden'
                     }}>
-                      <Film size={13} color="#818cf8" style={{ flexShrink: 0 }} />
+                      <Film size={13} color="#4d6f75" style={{ flexShrink: 0 }} />
                       <span
                         title={videoFile.name}
                         style={{
-                          fontWeight: 600, color: '#fff', fontSize: 12,
+                          fontWeight: 600, color: '#ede8df', fontSize: 12,
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
                         }}
                       >
@@ -944,9 +947,9 @@ export default function VideoStudioPage() {
                     </div>
 
                     <span style={{
-                      fontFamily: 'monospace', color: '#38bdf8', fontWeight: 700, fontSize: 12,
-                      background: 'rgba(56, 189, 248, 0.1)', padding: '3px 8px', borderRadius: 6,
-                      border: '1px solid rgba(56, 189, 248, 0.2)'
+                      fontFamily: 'monospace', color: '#b8956a', fontWeight: 700, fontSize: 12,
+                      background: 'rgba(184, 149, 106, 0.1)', padding: '3px 8px', borderRadius: 6,
+                      border: '1px solid rgba(184, 149, 106, 0.2)'
                     }}>
                       {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
@@ -958,7 +961,7 @@ export default function VideoStudioPage() {
                     <div style={{
                       display: 'flex', alignItems: 'center', gap: 2,
                       background: 'rgba(0, 0, 0, 0.45)', padding: 3, borderRadius: 8,
-                      border: '1px solid rgba(255, 255, 255, 0.08)'
+                      border: '1px solid rgba(184, 149, 106, 0.16)'
                     }}>
                       <button
                         type="button"
@@ -966,16 +969,16 @@ export default function VideoStudioPage() {
                         disabled={isProcessing}
                         style={{
                           padding: '4px 8px', borderRadius: 6, border: 'none',
-                          background: videoFormat === '9:16' ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(99, 102, 241, 0.35))' : 'transparent',
-                          color: videoFormat === '9:16' ? '#38bdf8' : '#9ca3af',
+                          background: videoFormat === '9:16' ? 'linear-gradient(135deg, rgba(184, 149, 106, 0.35), rgba(184, 149, 106, 0.35))' : 'transparent',
+                          color: videoFormat === '9:16' ? '#b8956a' : '#9ca3af',
                           fontSize: 11, fontWeight: 700,
                           cursor: isProcessing ? 'not-allowed' : 'pointer',
                           display: 'flex', alignItems: 'center', gap: 4,
-                          boxShadow: videoFormat === '9:16' ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none',
+                          boxShadow: videoFormat === '9:16' ? '0 0 10px rgba(184, 149, 106, 0.25)' : 'none',
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <Smartphone size={12} color={videoFormat === '9:16' ? '#38bdf8' : '#9ca3af'} />
+                        <Smartphone size={12} color={videoFormat === '9:16' ? '#b8956a' : '#9ca3af'} />
                         <span>9:16</span>
                       </button>
                       <button
@@ -984,16 +987,16 @@ export default function VideoStudioPage() {
                         disabled={isProcessing}
                         style={{
                           padding: '4px 8px', borderRadius: 6, border: 'none',
-                          background: videoFormat === '16:9' ? 'linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(99, 102, 241, 0.35))' : 'transparent',
-                          color: videoFormat === '16:9' ? '#a78bfa' : '#9ca3af',
+                          background: videoFormat === '16:9' ? 'linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(184, 149, 106, 0.35))' : 'transparent',
+                          color: videoFormat === '16:9' ? '#c8a96a' : '#9ca3af',
                           fontSize: 11, fontWeight: 700,
                           cursor: isProcessing ? 'not-allowed' : 'pointer',
                           display: 'flex', alignItems: 'center', gap: 4,
-                          boxShadow: videoFormat === '16:9' ? '0 0 10px rgba(167, 139, 250, 0.25)' : 'none',
+                          boxShadow: videoFormat === '16:9' ? '0 0 10px rgba(77, 111, 117, 0.25)' : 'none',
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <Monitor size={12} color={videoFormat === '16:9' ? '#a78bfa' : '#9ca3af'} />
+                        <Monitor size={12} color={videoFormat === '16:9' ? '#c8a96a' : '#9ca3af'} />
                         <span>16:9</span>
                       </button>
                     </div>
@@ -1006,7 +1009,7 @@ export default function VideoStudioPage() {
                       style={{
                         padding: '5px 10px', borderRadius: 8,
                         background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(184, 149, 106, 0.18)',
                         color: '#cbd5e1', fontSize: 11.5, fontWeight: 600,
                         fontFamily: 'Outfit, sans-serif',
                         display: 'flex', alignItems: 'center', gap: 5,
@@ -1089,9 +1092,9 @@ export default function VideoStudioPage() {
                         top: `${box.y * 100}%`,
                         width: `${box.w * 100}%`,
                         height: `${box.h * 100}%`,
-                        background: 'rgba(56, 189, 248, 0.22)',
-                        border: '2px dashed #38bdf8',
-                        boxShadow: '0 0 16px rgba(56, 189, 248, 0.35)',
+                        background: 'rgba(184, 149, 106, 0.22)',
+                        border: '2px dashed rgba(184, 149, 106, 0.8)',
+                        boxShadow: '0 0 16px rgba(184, 149, 106, 0.35)',
                         borderRadius: 6,
                         cursor: isProcessing ? 'not-allowed' : 'move',
                         pointerEvents: isProcessing ? 'none' : 'auto',
@@ -1109,8 +1112,8 @@ export default function VideoStudioPage() {
                             style={{
                               position: 'absolute', top: -5, left: -5,
                               width: 10, height: 10, background: '#fff',
-                              border: '2px solid #38bdf8', borderRadius: 2,
-                              boxShadow: '0 0 6px rgba(56, 189, 248, 0.6)',
+                              border: '2px solid rgba(184, 149, 106, 0.9)', borderRadius: 2,
+                              boxShadow: '0 0 6px rgba(184, 149, 106, 0.6)',
                               cursor: 'nwse-resize', zIndex: 12
                             }}
                           />
@@ -1119,8 +1122,8 @@ export default function VideoStudioPage() {
                             style={{
                               position: 'absolute', top: -5, right: -5,
                               width: 10, height: 10, background: '#fff',
-                              border: '2px solid #38bdf8', borderRadius: 2,
-                              boxShadow: '0 0 6px rgba(56, 189, 248, 0.6)',
+                              border: '2px solid rgba(184, 149, 106, 0.9)', borderRadius: 2,
+                              boxShadow: '0 0 6px rgba(184, 149, 106, 0.6)',
                               cursor: 'nesw-resize', zIndex: 12
                             }}
                           />
@@ -1129,8 +1132,8 @@ export default function VideoStudioPage() {
                             style={{
                               position: 'absolute', bottom: -5, left: -5,
                               width: 10, height: 10, background: '#fff',
-                              border: '2px solid #38bdf8', borderRadius: 2,
-                              boxShadow: '0 0 6px rgba(56, 189, 248, 0.6)',
+                              border: '2px solid rgba(184, 149, 106, 0.9)', borderRadius: 2,
+                              boxShadow: '0 0 6px rgba(184, 149, 106, 0.6)',
                               cursor: 'nesw-resize', zIndex: 12
                             }}
                           />
@@ -1139,8 +1142,8 @@ export default function VideoStudioPage() {
                             style={{
                               position: 'absolute', bottom: -5, right: -5,
                               width: 10, height: 10, background: '#fff',
-                              border: '2px solid #38bdf8', borderRadius: 2,
-                              boxShadow: '0 0 6px rgba(56, 189, 248, 0.6)',
+                              border: '2px solid rgba(184, 149, 106, 0.9)', borderRadius: 2,
+                              boxShadow: '0 0 6px rgba(184, 149, 106, 0.6)',
                               cursor: 'nwse-resize', zIndex: 12
                             }}
                           />
@@ -1170,7 +1173,7 @@ export default function VideoStudioPage() {
                     }}
                     style={{
                       width: '100%', height: 6, borderRadius: 3,
-                      accentColor: isProcessing ? '#4b5563' : '#38bdf8',
+                      accentColor: isProcessing ? '#4b5563' : '#b8956a',
                       cursor: isProcessing ? 'not-allowed' : 'pointer',
                       opacity: isProcessing ? 0.4 : 1,
                     }}
@@ -1187,7 +1190,7 @@ export default function VideoStudioPage() {
                         disabled={isProcessing}
                         style={{
                           padding: '8px 16px', borderRadius: 10,
-                          background: isProcessing ? 'rgba(56, 189, 248, 0.2)' : 'linear-gradient(135deg, #0284c7, #0369a1)',
+                          background: isProcessing ? 'rgba(184,149,106,0.12)' : 'rgba(184, 149, 106, 0.15)',
                           border: 'none', color: isProcessing ? '#6b7280' : '#fff',
                           fontSize: 12.5, fontWeight: 700,
                           display: 'flex', alignItems: 'center', gap: 6,
@@ -1203,7 +1206,7 @@ export default function VideoStudioPage() {
                     </div>
 
                     {videoMeta && (
-                      <div style={{ fontSize: 11.5, color: '#6b7280' }}>
+                      <div style={{ fontSize: 11.5, color: 'rgba(184, 149, 106, 0.5)' }}>
                         {videoMeta.width}×{videoMeta.height} · {videoMeta.fps} FPS · {videoMeta.frame_count} frames
                       </div>
                     )}
@@ -1212,61 +1215,60 @@ export default function VideoStudioPage() {
               </div>
             ) : (
               /* ═══════════════════════════════════════════════════════════
-                 OUTPUT RESULT — Scroll-free two-column layout
-                 Left : video player (viewport-height-capped)
-                 Right: action panel (success, view toggle, download)
+                 OUTPUT RESULT — Dusk Sand — Side-by-Side & Single Views
                  ═══════════════════════════════════════════════════════════ */
               <div style={{ display: 'contents' }}>
 
                 {/* ── LEFT: Video Display Panel ── */}
                 <div style={{
-                  background: 'rgba(15, 12, 32, 0.88)',
-                  border: '1px solid rgba(16, 185, 129, 0.2)',
-                  borderRadius: 20,
+                  background: 'linear-gradient(165deg, rgba(50, 45, 41, 0.88) 0%, rgba(36, 32, 28, 0.95) 100%)', border: '1px solid rgba(194, 156, 109, 0.28)', boxShadow: '0 16px 40px rgba(15, 12, 10, 0.5)',
+                  border: '1px solid rgba(200, 169, 106, 0.2)',
+                  borderRadius: 22,
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 24px 64px rgba(0,0,0,0.55), inset 0 1px 0 rgba(200,169,106,0.08)',
                   maxHeight: 'calc(100vh - 170px)',
                   minHeight: 0,
                 }}>
 
-                  {/* Tab bar inside video panel */}
+                  {/* Tab bar */}
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4,
+                    display: 'flex', alignItems: 'center', gap: 4,
                     padding: '10px 14px',
-                    borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    background: 'rgba(0,0,0,0.3)',
+                    borderBottom: '1px solid rgba(200, 169, 106, 0.1)',
+                    background: 'rgba(20, 16, 10, 0.4)',
                     flexShrink: 0,
                   }}>
                     {[
-                      { key: 'cleaned',  icon: '\u2736', label: 'Cleaned' },
-                      { key: 'compare',  icon: '\u21c4', label: 'Side-by-Side' },
-                      { key: 'original', icon: '\u25ce', label: 'Original' },
+                      { key: 'cleaned',  icon: '✨', label: 'Cleaned' },
+                      { key: 'compare',  icon: '⇄',  label: 'Side-by-Side' },
+                      { key: 'original', icon: '◎',  label: 'Original' },
                     ].map(tab => (
                       <button
                         key={tab.key}
                         onClick={() => setViewMode(tab.key)}
                         style={{
-                          padding: '5px 13px', borderRadius: 7, border: 'none',
+                          padding: '6px 14px', borderRadius: 8, border: 'none',
                           background: viewMode === tab.key
-                            ? tab.key === 'cleaned'  ? 'rgba(16,185,129,0.25)'
-                            : tab.key === 'compare'  ? 'rgba(56,189,248,0.25)'
-                            : 'rgba(255,255,255,0.15)'
+                            ? tab.key === 'cleaned'  ? 'rgba(200,169,106,0.2)'
+                            : tab.key === 'compare'  ? 'rgba(107,158,168,0.2)'
+                            : 'rgba(255,255,255,0.1)'
                             : 'transparent',
                           color: viewMode === tab.key
-                            ? tab.key === 'cleaned'  ? '#34d399'
-                            : tab.key === 'compare'  ? '#38bdf8'
-                            : '#fff'
-                            : '#6b7280',
+                            ? tab.key === 'cleaned'  ? '#e8d5a3'
+                            : tab.key === 'compare'  ? '#6b9ea8'
+                            : '#f0ede6'
+                            : 'rgba(240,237,230,0.35)',
                           fontSize: 12, fontWeight: viewMode === tab.key ? 700 : 500,
                           cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: 5,
                           fontFamily: 'Outfit, sans-serif',
-                          transition: 'all 0.15s ease',
+                          transition: 'all 0.2s ease',
+                          border: viewMode === tab.key
+                            ? tab.key === 'compare' ? '1px solid rgba(107,158,168,0.35)' : '1px solid rgba(200,169,106,0.3)'
+                            : '1px solid transparent',
                         }}
                       >
                         <span style={{ fontSize: 11 }}>{tab.icon}</span>
@@ -1279,30 +1281,31 @@ export default function VideoStudioPage() {
                   <div style={{
                     display: 'grid',
                     gridTemplateColumns: viewMode === 'compare' ? '1fr 1fr' : '1fr',
-                    gap: viewMode === 'compare' ? 8 : 0,
-                    flex: 1,
-                    minHeight: 0,
+                    gap: viewMode === 'compare' ? 10 : 0,
+                    flex: 1, minHeight: 0,
                     padding: viewMode === 'compare' ? 10 : 0,
-                    background: '#000',
+                    background: '#161210',
                   }}>
 
                     {/* Original side */}
                     {(viewMode === 'compare' || viewMode === 'original') && (
                       <div style={{
-                        position: 'relative',
-                        background: '#000',
-                        borderRadius: viewMode === 'compare' ? 10 : 0,
+                        position: 'relative', background: '#000',
+                        borderRadius: viewMode === 'compare' ? 12 : 0,
                         overflow: 'hidden',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        border: viewMode === 'compare' ? '1px solid rgba(248,113,113,0.3)' : 'none',
+                        border: viewMode === 'compare' ? '1px solid rgba(240,100,100,0.25)' : 'none',
                       }}>
                         <div style={{
                           position: 'absolute', top: 8, left: 8, zIndex: 10,
-                          background: 'rgba(239,68,68,0.85)', backdropFilter: 'blur(6px)',
-                          padding: '3px 9px', borderRadius: 5,
-                          fontSize: 10.5, fontWeight: 700, color: '#fff', letterSpacing: '0.02em',
+                          background: 'rgba(160,60,60,0.85)', backdropFilter: 'blur(8px)',
+                          padding: '3px 10px', borderRadius: 6,
+                          fontSize: 10, fontWeight: 700, color: '#faf7f2',
+                          letterSpacing: '0.04em', textTransform: 'uppercase',
+                          fontFamily: 'Outfit, sans-serif',
+                          border: '1px solid rgba(240,100,100,0.3)',
                         }}>
-                          Original
+                          ◎ Original
                         </div>
                         <video
                           ref={videoRef}
@@ -1320,21 +1323,23 @@ export default function VideoStudioPage() {
                     {/* Cleaned side */}
                     {(viewMode === 'compare' || viewMode === 'cleaned') && (
                       <div style={{
-                        position: 'relative',
-                        background: '#000',
-                        borderRadius: viewMode === 'compare' ? 10 : 0,
+                        position: 'relative', background: '#000',
+                        borderRadius: viewMode === 'compare' ? 12 : 0,
                         overflow: 'hidden',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        border: viewMode === 'compare' ? '1px solid rgba(16,185,129,0.4)' : 'none',
-                        boxShadow: viewMode === 'compare' ? '0 0 20px rgba(16,185,129,0.1)' : 'none',
+                        border: viewMode === 'compare' ? '1px solid rgba(200,169,106,0.3)' : 'none',
+                        boxShadow: viewMode === 'compare' ? '0 0 20px rgba(200,169,106,0.08)' : 'none',
                       }}>
                         <div style={{
                           position: 'absolute', top: 8, left: 8, zIndex: 10,
-                          background: 'rgba(16,185,129,0.9)', backdropFilter: 'blur(6px)',
-                          padding: '3px 9px', borderRadius: 5,
-                          fontSize: 10.5, fontWeight: 700, color: '#fff', letterSpacing: '0.02em',
+                          background: 'rgba(200,169,106,0.88)', backdropFilter: 'blur(8px)',
+                          padding: '3px 10px', borderRadius: 6,
+                          fontSize: 10, fontWeight: 700, color: '#1a1510',
+                          letterSpacing: '0.04em', textTransform: 'uppercase',
+                          fontFamily: 'Outfit, sans-serif',
+                          border: '1px solid rgba(232,213,163,0.4)',
                         }}>
-                          Cleaned
+                          ✨ Cleaned
                         </div>
                         <video
                           ref={cleanedVideoRef}
@@ -1355,37 +1360,34 @@ export default function VideoStudioPage() {
 
                 {/* ── RIGHT: Action Panel ── */}
                 <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 14,
-                  position: 'sticky',
-                  top: 100,
+                  display: 'flex', flexDirection: 'column', gap: 14,
+                  position: 'sticky', top: 100,
                 }}>
 
                   {/* Success badge */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.08))',
-                    border: '1px solid rgba(16,185,129,0.35)',
-                    borderRadius: 16, padding: '16px 18px',
+                    background: 'linear-gradient(135deg, rgba(200,169,106,0.12), rgba(107,158,168,0.08))',
+                    border: '1px solid rgba(184, 149, 106, 0.35)',
+                    borderRadius: 18, padding: '16px 18px',
                     display: 'flex', alignItems: 'center', gap: 12,
-                    boxShadow: '0 0 30px rgba(16,185,129,0.1)',
+                    boxShadow: '0 4px 24px rgba(200,169,106,0.12)',
                   }}>
                     <div style={{
-                      width: 36, height: 36, borderRadius: '50%',
-                      background: 'rgba(16,185,129,0.2)', flexShrink: 0,
+                      width: 38, height: 38, borderRadius: '50%',
+                      background: 'rgba(184, 149, 106, 0.18)', flexShrink: 0,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      border: '1px solid rgba(16,185,129,0.4)',
+                      border: '1px solid rgba(184, 149, 106, 0.4)',
                     }}>
-                      <CheckCircle2 size={18} color="#34d399" />
+                      <CheckCircle2 size={18} color="#c8a96a" />
                     </div>
                     <div>
                       <div style={{
                         fontFamily: 'Outfit, sans-serif', fontSize: 14, fontWeight: 800,
-                        color: '#34d399', letterSpacing: '-0.01em', lineHeight: 1,
+                        color: '#d4b896', letterSpacing: '-0.01em', lineHeight: 1,
                       }}>
                         Video Cleaned!
                       </div>
-                      <div style={{ fontSize: 11, color: '#6b7280', marginTop: 3 }}>
+                      <div style={{ fontSize: 11, color: 'rgba(200,169,106,0.55)', marginTop: 3, fontFamily: 'DM Sans, sans-serif' }}>
                         {completedResult.elapsed_seconds
                           ? 'Processed in ' + completedResult.elapsed_seconds + 's'
                           : 'Ready to download'}
@@ -1397,14 +1399,10 @@ export default function VideoStudioPage() {
                   <a
                     href={completedResult.url || (completedResult.video_id ? getVideoDownloadUrl(completedResult.video_id) : '#')}
                     download={(videoFile?.name?.replace(/\.[^/.]+$/, '') || 'video') + '_cleanmarkAI.mp4'}
+                    className="btn-primary"
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                      padding: '16px 20px', borderRadius: 14,
-                      background: 'linear-gradient(135deg, #10b981, #059669)',
-                      boxShadow: '0 8px 28px rgba(16,185,129,0.45), 0 2px 8px rgba(0,0,0,0.3)',
-                      textDecoration: 'none', color: '#fff',
-                      fontFamily: 'Outfit, sans-serif', fontSize: 15, fontWeight: 800,
-                      letterSpacing: '-0.01em', cursor: 'pointer',
+                      padding: '16px 20px', borderRadius: 14, fontSize: 15, fontWeight: 800,
                     }}
                   >
                     <Download size={18} />
@@ -1413,18 +1411,18 @@ export default function VideoStudioPage() {
 
                   {/* Filename preview */}
                   <div style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    borderRadius: 10, padding: '10px 14px',
+                    background: 'rgba(200,169,106,0.05)',
+                    border: '1px solid rgba(200,169,106,0.15)',
+                    borderRadius: 12, padding: '10px 14px',
                     display: 'flex', alignItems: 'center', gap: 8,
                   }}>
-                    <Film size={13} color="#6b7280" />
+                    <Film size={13} color="rgba(200,169,106,0.5)" />
                     <div style={{ overflow: 'hidden', flex: 1 }}>
-                      <div style={{ fontSize: 10, color: '#4b5563', fontWeight: 500, marginBottom: 2 }}>
+                      <div style={{ fontSize: 10, color: 'rgba(200,169,106,0.4)', fontWeight: 600, marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Outfit, sans-serif' }}>
                         Saving as
                       </div>
                       <div style={{
-                        fontSize: 11.5, color: '#94a3b8', fontWeight: 600,
+                        fontSize: 11.5, color: 'rgba(240,237,230,0.55)', fontWeight: 600,
                         fontFamily: 'monospace',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                       }}>
@@ -1435,14 +1433,14 @@ export default function VideoStudioPage() {
 
                   {/* Engine info card */}
                   <div style={{
-                    background: 'rgba(15,12,32,0.7)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    borderRadius: 12, padding: '12px 14px',
+                    background: 'rgba(200,169,106,0.04)',
+                    border: '1px solid rgba(200,169,106,0.12)',
+                    borderRadius: 14, padding: '12px 14px',
                     display: 'flex', flexDirection: 'column', gap: 8,
                   }}>
                     <div style={{
-                      fontSize: 10, color: '#475569', fontWeight: 700,
-                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      fontSize: 10, color: 'rgba(200,169,106,0.5)', fontWeight: 700,
+                      letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'Outfit, sans-serif',
                     }}>
                       Processing Info
                     </div>
@@ -1451,11 +1449,11 @@ export default function VideoStudioPage() {
                         { label: 'Engine', value: completedResult.removal_mode === 'inpaint' ? 'AI Inpainting' : 'Zero-Blur Math' },
                         { label: 'Output', value: 'H.264 MP4' },
                         ...(completedResult.elapsed_seconds ? [{ label: 'Time', value: completedResult.elapsed_seconds + 's' }] : []),
-                        ...(videoMeta ? [{ label: 'Resolution', value: videoMeta.width + '\u00d7' + videoMeta.height }] : []),
+                        ...(videoMeta ? [{ label: 'Resolution', value: videoMeta.width + '×' + videoMeta.height }] : []),
                       ].map(row => (
                         <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: 11.5, color: '#4b5563' }}>{row.label}</span>
-                          <span style={{ fontSize: 11.5, color: '#94a3b8', fontWeight: 600 }}>{row.value}</span>
+                          <span style={{ fontSize: 11.5, color: 'rgba(200,169,106,0.45)', fontFamily: 'DM Sans, sans-serif' }}>{row.label}</span>
+                          <span style={{ fontSize: 11.5, color: 'rgba(240,237,230,0.65)', fontWeight: 600, fontFamily: 'Outfit, sans-serif' }}>{row.value}</span>
                         </div>
                       ))}
                     </div>
@@ -1467,12 +1465,10 @@ export default function VideoStudioPage() {
                       setCompletedResult(null);
                       setCleanedVideoUrl(null);
                     }}
+                    className="btn-secondary"
                     style={{
                       width: '100%', padding: '12px 16px', borderRadius: 12,
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      color: '#94a3b8', fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                      fontFamily: 'Outfit, sans-serif',
+                      fontSize: 13, fontWeight: 600, cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                     }}
                   >
@@ -1489,8 +1485,8 @@ export default function VideoStudioPage() {
               <div
                 className="studio-sidebar-scroll"
                 style={{
-                  background: 'rgba(15, 12, 32, 0.85)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'linear-gradient(165deg, rgba(50, 45, 41, 0.88) 0%, rgba(36, 32, 28, 0.95) 100%)', border: '1px solid rgba(194, 156, 109, 0.28)', boxShadow: '0 16px 40px rgba(15, 12, 10, 0.5)',
+                  border: '1px solid rgba(200, 169, 106, 0.16)',
                   borderRadius: 18,
                   padding: '16px',
                   backdropFilter: 'blur(16px)',
@@ -1508,14 +1504,14 @@ export default function VideoStudioPage() {
                 {/* Section 1: Watermark Preset Selection */}
                 <div>
                   <div style={{
-                    fontSize: 12.5, fontWeight: 700, color: '#e2e0f0',
+                    fontSize: 12.5, fontWeight: 700, color: '#d4b896',
                     marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between'
                   }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <Sliders size={14} color="#38bdf8" />
+                      <Sliders size={14} color="#b8956a" />
                       <span style={{ fontFamily: "Outfit, sans-serif", letterSpacing: "-0.01em" }}>Watermark Position</span>
                     </span>
-                    <span style={{ fontSize: 10, color: '#38bdf8', fontWeight: 600 }}>
+                    <span style={{ fontSize: 10, color: '#b8956a', fontWeight: 600 }}>
                       ✨ Drag to Reposition
                     </span>
                   </div>
@@ -1534,9 +1530,9 @@ export default function VideoStudioPage() {
                         onClick={() => handleSelectPreset(pos.id)}
                         style={{
                           padding: '7px 10px', borderRadius: 8,
-                          background: activePreset === pos.id ? 'rgba(56, 189, 248, 0.18)' : 'rgba(255, 255, 255, 0.03)',
-                          border: `1px solid ${activePreset === pos.id ? '#38bdf8' : 'rgba(255, 255, 255, 0.08)'}`,
-                          color: isProcessing ? '#4b5563' : activePreset === pos.id ? '#38bdf8' : '#9ca3af',
+                          background: activePreset === pos.id ? 'rgba(184, 149, 106, 0.18)' : 'rgba(255, 255, 255, 0.03)',
+                          border: `1px solid ${activePreset === pos.id ? '#b8956a' : 'rgba(255, 255, 255, 0.08)'}`,
+                          color: isProcessing ? '#4b5563' : activePreset === pos.id ? '#b8956a' : '#9ca3af',
                           fontSize: 11.5, fontWeight: 600,
                           cursor: isProcessing ? 'not-allowed' : 'pointer',
                           opacity: isProcessing ? 0.5 : 1,
@@ -1555,9 +1551,9 @@ export default function VideoStudioPage() {
                     onClick={() => handleSelectPreset('bottom-banner')}
                     style={{
                       width: '100%', marginTop: 6, padding: '7px 10px', borderRadius: 8,
-                      background: activePreset === 'bottom-banner' ? 'rgba(56, 189, 248, 0.18)' : 'rgba(255, 255, 255, 0.03)',
-                      border: `1px solid ${activePreset === 'bottom-banner' ? '#38bdf8' : 'rgba(255, 255, 255, 0.08)'}`,
-                      color: isProcessing ? '#4b5563' : activePreset === 'bottom-banner' ? '#38bdf8' : '#9ca3af',
+                      background: activePreset === 'bottom-banner' ? 'rgba(184, 149, 106, 0.18)' : 'rgba(255, 255, 255, 0.03)',
+                      border: `1px solid ${activePreset === 'bottom-banner' ? '#b8956a' : 'rgba(255, 255, 255, 0.08)'}`,
+                      color: isProcessing ? '#4b5563' : activePreset === 'bottom-banner' ? '#b8956a' : '#9ca3af',
                       fontSize: 11.5, fontWeight: 600,
                       cursor: isProcessing ? 'not-allowed' : 'pointer',
                       opacity: isProcessing ? 0.5 : 1,
@@ -1576,12 +1572,12 @@ export default function VideoStudioPage() {
                 {/* Section 2: Real-Time Live Frame Preview & Watermark Opacity Slider */}
                 <div style={{
                   padding: '12px', borderRadius: 14,
-                  background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(99, 102, 241, 0.08))',
-                  border: '1px solid rgba(56, 189, 248, 0.25)',
+                  background: 'linear-gradient(135deg, rgba(184, 149, 106, 0.08), rgba(184, 149, 106, 0.08))',
+                  border: '1px solid rgba(184, 149, 106, 0.25)',
                   display: 'flex', flexDirection: 'column', gap: 10
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#38bdf8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#b8956a', display: 'flex', alignItems: 'center', gap: 6 }}>
                       <Eye size={14} />
                       <span style={{ fontFamily: "Outfit, sans-serif", letterSpacing: "-0.01em" }}>Live Preview</span>
                     </div>
@@ -1590,9 +1586,9 @@ export default function VideoStudioPage() {
                       onClick={() => setShowLivePreview(!showLivePreview)}
                       style={{
                         padding: '3px 8px', borderRadius: 6,
-                        background: showLivePreview ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255,255,255,0.05)',
-                        border: `1px solid ${showLivePreview ? '#38bdf8' : 'rgba(255,255,255,0.1)'}`,
-                        color: showLivePreview ? '#38bdf8' : '#9ca3af',
+                        background: showLivePreview ? 'rgba(200,169,106,0.18)' : 'rgba(255,255,255,0.05)',
+                        border: `1px solid ${showLivePreview ? '#b8956a' : 'rgba(255,255,255,0.1)'}`,
+                        color: showLivePreview ? '#b8956a' : '#9ca3af',
                         fontSize: 10, fontWeight: 600, cursor: 'pointer',
                         display: 'flex', alignItems: 'center', gap: 4
                       }}
@@ -1606,21 +1602,21 @@ export default function VideoStudioPage() {
                   <div style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
                     background: 'rgba(0,0,0,0.45)', borderRadius: 10,
-                    padding: '6px', border: '1px solid rgba(255,255,255,0.06)'
+                    padding: '6px', border: '1px solid rgba(184, 149, 106, 0.14)'
                   }}>
                     <canvas
                       ref={previewCanvasRef}
                       style={{
                         maxWidth: '100%', maxHeight: 85,
                         borderRadius: 6, imageRendering: 'pixelated',
-                        border: '1px solid rgba(56, 189, 248, 0.3)',
+                        border: '1px solid rgba(184, 149, 106, 0.3)',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
                       }}
                     />
-                    <div style={{ fontSize: 9.5, color: '#94a3b8', marginTop: 4, display: 'flex', gap: 6 }}>
+                    <div style={{ fontSize: 9.5, color: 'rgba(237, 232, 223, 0.5)', marginTop: 4, display: 'flex', gap: 6 }}>
                       <span>Frame @ {currentTime.toFixed(2)}s</span>
                       <span>•</span>
-                      <span style={{ color: showLivePreview ? '#10b981' : '#f59e0b', fontWeight: 600 }}>
+                      <span style={{ color: showLivePreview ? '#10b981' : '#b8956a', fontWeight: 600 }}>
                         {showLivePreview ? '✓ Zero-Blur Cleaned' : 'Original Frame'}
                       </span>
                     </div>
@@ -1631,8 +1627,8 @@ export default function VideoStudioPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11.5, color: '#cbd5e1', marginBottom: 5 }}>
                       <span style={{ fontWeight: 700, fontFamily: "Outfit, sans-serif", letterSpacing: "-0.01em" }}>Watermark Opacity</span>
                       <span style={{
-                        fontFamily: 'monospace', color: '#38bdf8', fontWeight: 800, fontSize: 12,
-                        background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.3)',
+                        fontFamily: 'monospace', color: '#b8956a', fontWeight: 800, fontSize: 12,
+                        background: 'rgba(184, 149, 106, 0.15)', border: '1px solid rgba(184, 149, 106, 0.3)',
                         padding: '1px 7px', borderRadius: 6
                       }}>
                         {sliderGain.toFixed(2)}x
@@ -1644,7 +1640,7 @@ export default function VideoStudioPage() {
                       value={sliderGain}
                       onChange={(e) => setSliderGain(parseFloat(e.target.value))}
                       style={{
-                        width: '100%', height: 6, accentColor: '#38bdf8',
+                        width: '100%', height: 6, accentColor: '#b8956a',
                         cursor: isProcessing ? 'not-allowed' : 'pointer'
                       }}
                     />
@@ -1662,9 +1658,9 @@ export default function VideoStudioPage() {
                             style={{
                               padding: '3px 0',
                               borderRadius: 6,
-                              border: isSel ? '1px solid #38bdf8' : '1px solid rgba(255,255,255,0.08)',
-                              background: isSel ? 'rgba(56, 189, 248, 0.22)' : 'rgba(255,255,255,0.03)',
-                              color: isSel ? '#38bdf8' : '#94a3b8',
+                              border: isSel ? '1px solid #f59e0b' : '1px solid rgba(255,255,255,0.08)',
+                              background: isSel ? 'rgba(184, 149, 106, 0.22)' : 'rgba(255,255,255,0.03)',
+                              color: isSel ? '#b8956a' : '#94a3b8',
                               fontSize: 10, fontWeight: 700, fontFamily: 'monospace',
                               cursor: isProcessing ? 'not-allowed' : 'pointer',
                               transition: 'all 0.12s ease',
@@ -1678,7 +1674,7 @@ export default function VideoStudioPage() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#64748b', marginTop: 4 }}>
                       <span>0.10 (Light)</span>
-                      <span style={{ color: '#38bdf8' }}>Optimal: 0.25 – 0.45</span>
+                      <span style={{ color: '#b8956a' }}>Optimal: 0.25 – 0.45</span>
                       <span>0.60 (Strong)</span>
                     </div>
                   </div>
@@ -1686,13 +1682,13 @@ export default function VideoStudioPage() {
 
                 {/* Section 3: Timeline Range */}
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#e2e0f0', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <Clock size={14} color="#38bdf8" />
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#d4b896', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Clock size={14} color="#b8956a" />
                     <span style={{ fontFamily: "Outfit, sans-serif", letterSpacing: "-0.01em" }}>Timeline Range</span>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
                     <div>
-                      <div style={{ fontSize: 10.5, color: '#94a3b8', marginBottom: 3, fontWeight: 600 }}>Start (s)</div>
+                      <div style={{ fontSize: 10.5, color: 'rgba(237, 232, 223, 0.5)', marginBottom: 3, fontWeight: 600 }}>Start (s)</div>
                       <input
                         type="number" step="0.5" min="0" max={duration}
                         disabled={isProcessing}
@@ -1707,7 +1703,7 @@ export default function VideoStudioPage() {
                       />
                     </div>
                     <div>
-                      <div style={{ fontSize: 10.5, color: '#94a3b8', marginBottom: 3, fontWeight: 600 }}>End (s)</div>
+                      <div style={{ fontSize: 10.5, color: 'rgba(237, 232, 223, 0.5)', marginBottom: 3, fontWeight: 600 }}>End (s)</div>
                       <input
                         type="number" step="0.5" min="0" max={duration}
                         disabled={isProcessing}
@@ -1735,10 +1731,10 @@ export default function VideoStudioPage() {
                     <div style={{
                       padding: '12px 14px', borderRadius: 12,
                       background: isTooLarge
-                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(239, 68, 68, 0.12))'
+                        ? 'linear-gradient(135deg, rgba(184, 149, 106, 0.14), rgba(239, 68, 68, 0.12))'
                         : 'rgba(239, 68, 68, 0.14)',
                       border: isTooLarge
-                        ? '1px solid rgba(245, 158, 11, 0.38)'
+                        ? '1px solid rgba(184, 149, 106, 0.38)'
                         : '1px solid rgba(239, 68, 68, 0.35)',
                       display: 'flex', flexDirection: 'column', gap: 7,
                       boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
@@ -1757,7 +1753,7 @@ export default function VideoStudioPage() {
                           type="button"
                           onClick={() => setErrorMsg(null)}
                           style={{
-                            background: 'none', border: 'none', color: '#94a3b8',
+                            background: 'none', border: 'none', color: 'rgba(237, 232, 223, 0.5)',
                             fontSize: 16, cursor: 'pointer', padding: '0 4px', lineHeight: 1
                           }}
                         >
@@ -1765,7 +1761,7 @@ export default function VideoStudioPage() {
                         </button>
                       </div>
 
-                      <div style={{ fontSize: 11.5, color: '#e2e8f0', lineHeight: 1.4 }}>
+                      <div style={{ fontSize: 11.5, color: '#ede8df', lineHeight: 1.4 }}>
                         {isTooLarge
                           ? 'This video exceeds the maximum resolution supported by your browser hardware encoder.'
                           : errorMsg
@@ -1774,11 +1770,11 @@ export default function VideoStudioPage() {
 
                       {isTooLarge && (
                         <div style={{
-                          fontSize: 10.5, color: '#94a3b8', background: 'rgba(0,0,0,0.35)',
-                          padding: '6px 9px', borderRadius: 7, borderLeft: '3px solid #38bdf8',
+                          fontSize: 10.5, color: 'rgba(237, 232, 223, 0.5)', background: 'rgba(0,0,0,0.35)',
+                          padding: '6px 9px', borderRadius: 7, borderLeft: '3px solid #f59e0b',
                           lineHeight: 1.35
                         }}>
-                          💡 <strong style={{ color: '#38bdf8' }}>Gemini / Veo Spec:</strong> Google Gemini videos are natively 1080p or 720p. Please upload a 1080p video for fast, zero-blur in-browser cleaning.
+                          💡 <strong style={{ color: '#b8956a' }}>Gemini / Veo Spec:</strong> Google Gemini videos are natively 1080p or 720p. Please upload a 1080p video for fast, zero-blur in-browser cleaning.
                         </div>
                       )}
                     </div>

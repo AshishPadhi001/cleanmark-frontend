@@ -48,7 +48,7 @@ export default function SupportPage() {
       paddingBottom: 80,
       paddingLeft: 24,
       paddingRight: 24,
-      background: '#07050f',
+      background: '#24201c',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -56,7 +56,7 @@ export default function SupportPage() {
       {/* Background Ambient Glow */}
       <div style={{
         position: 'absolute', top: 60, left: '50%', transform: 'translateX(-50%)',
-        width: 650, height: 360, background: 'radial-gradient(ellipse, rgba(99, 102, 241, 0.18) 0%, rgba(245, 158, 11, 0.08) 50%, transparent 70%)',
+        width: 650, height: 360, background: 'radial-gradient(ellipse, rgba(200,169,106,0.1) 0%, rgba(107,158,168,0.07) 50%, transparent 70%)',
         filter: 'blur(55px)', pointerEvents: 'none', zIndex: 0
       }} />
 
@@ -67,7 +67,7 @@ export default function SupportPage() {
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 7,
             padding: '6px 16px', borderRadius: 999,
-            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(234, 88, 12, 0.15))',
+            background: 'rgba(200,169,106,0.1)',
             border: '1px solid rgba(245, 158, 11, 0.35)',
             fontSize: 12.5, fontWeight: 700, color: '#fbbf24',
             boxShadow: '0 4px 16px rgba(245, 158, 11, 0.2)',
@@ -81,15 +81,15 @@ export default function SupportPage() {
             fontFamily: 'Outfit, sans-serif',
             fontSize: 'clamp(32px, 5vw, 48px)',
             fontWeight: 800,
-            color: '#fff',
+            color: '#f5eee6',
             lineHeight: 1.15,
             marginBottom: 14,
             letterSpacing: '-0.02em',
           }}>
-            Buy Me a <span style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #f97316 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Coffee ☕</span>
+            Buy Me a <span style={{ background: 'linear-gradient(135deg, #e8d5a3, #c8a96a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Coffee ☕</span>
           </h1>
 
-          <p style={{ fontSize: 15.5, color: '#9ca3af', maxWidth: 580, margin: '0 auto', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 15.5, color: '#ded6cb', maxWidth: 580, margin: '0 auto', lineHeight: 1.6 }}>
             <strong>CleanMark AI</strong> is built with ❤️ as a 100% free, private, local AI tool without ads or forced subscriptions. If this app saved your time or workflow, consider buying me a coffee!
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function SupportPage() {
           
           {/* Left Column: Contribution Amount Tiers */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#f5eee6', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
               Select Contribution Amount
             </div>
 
@@ -113,11 +113,11 @@ export default function SupportPage() {
                     borderRadius: 16,
                     padding: '20px 22px',
                     background: isSelected
-                      ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.22))'
+                      ? 'linear-gradient(135deg, rgba(200,169,106,0.22), rgba(77, 111, 117, 0.22))'
                       : 'rgba(255, 255, 255, 0.03)',
                     border: '1.5px solid',
-                    borderColor: isSelected ? '#818cf8' : 'rgba(255, 255, 255, 0.08)',
-                    boxShadow: isSelected ? '0 8px 30px rgba(99, 102, 241, 0.35)' : 'none',
+                    borderColor: isSelected ? '#c29c6d' : 'rgba(255, 255, 255, 0.08)',
+                    boxShadow: isSelected ? '0 8px 30px rgba(200,169,106,0.22)' : 'none',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     display: 'flex',
@@ -130,26 +130,26 @@ export default function SupportPage() {
                     <span style={{ fontSize: 30 }}>{t.icon}</span>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 16, fontWeight: 700, color: '#fff' }}>{t.name}</span>
+                        <span style={{ fontSize: 16, fontWeight: 700, color: '#f5eee6' }}>{t.name}</span>
                         {t.tag && (
                           <span style={{
                             fontSize: 10, fontWeight: 700,
                             padding: '2px 7px', borderRadius: 6,
                             background: t.popular ? 'linear-gradient(135deg, #f59e0b, #ea580c)' : 'rgba(255,255,255,0.08)',
-                            color: '#fff',
+                            color: '#f5eee6',
                           }}>
                             {t.tag}
                           </span>
                         )}
                       </div>
-                      <div style={{ fontSize: 12.5, color: '#9ca3af', marginTop: 3 }}>
+                      <div style={{ fontSize: 12.5, color: '#ded6cb', marginTop: 3 }}>
                         {t.desc}
                       </div>
                     </div>
                   </div>
 
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: isSelected ? '#a5b4fc' : '#fff', fontFamily: 'Outfit, sans-serif' }}>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: isSelected ? '#dfc8a5' : '#fff', fontFamily: 'Outfit, sans-serif' }}>
                       {t.price}
                     </div>
                   </div>
@@ -163,26 +163,26 @@ export default function SupportPage() {
               padding: '14px 18px',
               borderRadius: 14,
               background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(200,169,106,0.18)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#cbd5e1', fontWeight: 600 }}>
-                <Smartphone size={16} color="#818cf8" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#f5eee6', fontWeight: 600 }}>
+                <Smartphone size={16} color="#c29c6d" />
                 <span>Accepted UPI Apps:</span>
               </div>
-              <div style={{ display: 'flex', gap: 6, fontSize: 11, fontWeight: 700, color: '#a5b4fc' }}>
-                <span style={{ background: 'rgba(99,102,241,0.15)', padding: '3px 8px', borderRadius: 6 }}>GPay</span>
-                <span style={{ background: 'rgba(99,102,241,0.15)', padding: '3px 8px', borderRadius: 6 }}>PhonePe</span>
-                <span style={{ background: 'rgba(99,102,241,0.15)', padding: '3px 8px', borderRadius: 6 }}>Paytm</span>
+              <div style={{ display: 'flex', gap: 6, fontSize: 11, fontWeight: 700, color: '#dfc8a5' }}>
+                <span style={{ background: 'rgba(194, 156, 109, 0.18)', padding: '3px 8px', borderRadius: 6 }}>GPay</span>
+                <span style={{ background: 'rgba(194, 156, 109, 0.18)', padding: '3px 8px', borderRadius: 6 }}>PhonePe</span>
+                <span style={{ background: 'rgba(194, 156, 109, 0.18)', padding: '3px 8px', borderRadius: 6 }}>Paytm</span>
               </div>
             </div>
           </div>
 
           {/* Right Column: Real User QR Code Card */}
           <div style={{
-            background: 'rgba(15, 12, 32, 0.95)',
+            background: 'rgba(50, 45, 41, 0.9)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: 24,
             padding: '28px',
@@ -191,13 +191,13 @@ export default function SupportPage() {
             flexDirection: 'column',
             alignItems: 'center',
             textAlign: 'center',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(99,102,241,0.15)',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(194, 156, 109, 0.18)',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 4 }}>
-              <QrCode size={18} color="#818cf8" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 15, fontWeight: 700, color: '#f5eee6', marginBottom: 4 }}>
+              <QrCode size={18} color="#c29c6d" />
               <span>Scan QR to Send {selectedTierObj.price}</span>
             </div>
-            <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 18 }}>
+            <p style={{ fontSize: 12, color: '#ded6cb', marginBottom: 18 }}>
               Open any UPI app on your phone &amp; scan the code below
             </p>
 
@@ -208,7 +208,7 @@ export default function SupportPage() {
               padding: 10,
               background: '#ffffff',
               borderRadius: 20,
-              boxShadow: '0 16px 40px rgba(0,0,0,0.6), 0 0 0 3px rgba(99,102,241,0.5)',
+              boxShadow: '0 16px 40px rgba(0,0,0,0.6), 0 0 0 3px rgba(194, 156, 109, 0.5)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -245,11 +245,11 @@ export default function SupportPage() {
         {/* ─── Where Contribution Goes ─── */}
         <div style={{
           background: 'rgba(255, 255, 255, 0.02)',
-          border: '1px solid rgba(255, 255, 255, 0.06)',
+          border: '1px solid rgba(200,169,106,0.12)',
           borderRadius: 20,
           padding: '28px',
         }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 14, textAlign: 'center' }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#f5eee6', marginBottom: 14, textAlign: 'center' }}>
             Where does your support go?
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
@@ -259,10 +259,10 @@ export default function SupportPage() {
               { title: 'Video Inpainting', desc: 'Accelerates development of our next temporal frame-consistent video remover.' },
             ].map((f, i) => (
               <div key={i} style={{ padding: '12px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#818cf8', marginBottom: 4 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#c29c6d', marginBottom: 4 }}>
                   ✨ {f.title}
                 </div>
-                <div style={{ fontSize: 12, color: '#9ca3af', lineHeight: 1.5 }}>
+                <div style={{ fontSize: 12, color: '#ded6cb', lineHeight: 1.5 }}>
                   {f.desc}
                 </div>
               </div>
